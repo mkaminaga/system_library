@@ -2,7 +2,7 @@
 ====
 This sample shows you how to use font structures and functions.<br>
 Read sample[01,02]/README.md before reading this content.<br>
-<img src="doc/screen_shot.png" width="656px" "screen_shot">
+<img src="doc/screen_shot.png" width="656" title="screen_shot">
 
 General rules
 ----
@@ -16,9 +16,9 @@ Below things are general rules
 Font table
 ----
 Font data is actually a set of images aligned in one texture file in specific rule. The alignment of the character in font table is shown in the picture below<br>
-<img src="doc/allignment.png" width="656px" "table">
+<img src="doc/allignment.png" width="656" title="table">
 An example is shown below<br>
-<img src="font.png" width="96px" "example">
+<img src="font.png" width="96" title="example">
 
 Description structures
 ----
