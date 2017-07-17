@@ -76,12 +76,18 @@ These are sample and instructions in each sample projects. Each projects has exa
 
 |Folder|Description|
 |---|---|
-|samples/sample01_window|About how to create a plain window using basic functions and properties setter functions.|
-|samples/sample02_picture|About how to manipulate images.|
-|samples/sample03_font|About how to show text.|
-|samples/sample04_input|About how to get input.|
-|samples/sample05_sound|About how to play wave data.|
-|samples/sample06_streaming|About how to play streaming of wave file.|
+|samples/sample01_window|About how to create a plain window using basic functions and properties setter functions.<br>[README.md](samples/sample01_window/README.md)|
+|samples/sample02_picture|About how to manipulate images.<br>[README.md](samples/sample02_picture/README.md)|
+|samples/sample03_font|About how to show text.<br>[README.md](samples/sample03_font/README.md)|
+|samples/sample04_input|About how to get input.<br>[README.md](samples/sample04_input/README.md)|
+|samples/sample05_sound|About how to play wave data.<br>[README.md](samples/sample05_sound/README.md)|
+|samples/sample06_streaming|About how to play streaming of wave file.<br>[README.md](samples/sample06_streaming/README.md)|
+
+Contributing
+----
+It may be difficult for me to respond your issue quickly.<br>
+If you post an issue, I will respond when I have time.<br>
+See "CONTRIBUTING.md".
 
 License
 ----
