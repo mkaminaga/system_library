@@ -8,7 +8,7 @@ General rules
 ----
 Below things are general rules
 
- * Keyboard and Joypad are available input device
+ * Keyboard and Joypad are available input devices
  * Virtual input must be set before its use
 
 Key codes
@@ -230,37 +230,37 @@ These are some functions related to input. Input device is monitored when Update
 
 1. SetVirtualInputKey
 ```
-bool SetVirtualInputKey(SYS_VIRTUAL_KEY virtual_key, SYS_KEY key,
-                        SYS_JOYPAD_KEY Joypad_key);
+bool sys::SetVirtualInputKey(SYS_VIRTUAL_KEY virtual_key, SYS_KEY key,
+                             SYS_JOYPAD_KEY Joypad_key);
 ```
 This function set the assign of virtual keys to keyboard keys and Joypad keys. This function set one assign at a call. Down, Left, Right and Up keys are fixed and not be changed by this function.
 
 2. SetJoypadThreshold
 ```
-void SetJoypadThreshold(int threshold_x, int threshold_y);
+void sys::SetJoypadThreshold(int threshold_x, int threshold_y);
 ```
 This function sets threshold for Joypad analog stick input. The value ranges from 0 to 1000, default is 50. This function may not be needed often.
 
 3. GetKeyboardStatus
 ```
-bool GetKeyboardStatus(SYS_KEY key);
+bool sys::GetKeyboardStatus(SYS_KEY key);
 ```
 This function tells you keyboard key status. If the corresponding key is pressed or activated, this function returns true.
 
 4. GetJoypadStatus
 ```
-bool GetJoypadStatus(SYS_JOYPAD_KEY Joypad_key);
+bool sys::GetJoypadStatus(SYS_JOYPAD_KEY Joypad_key);
 ```
 This function tells you Joypad key status. If the corresponding key is pressed or activated, this function returns true.
 
 5. GetVirtualInputStatus
 ```
-bool GetVirtualInputStatus(SYS_VIRTUAL_KEY virtual_key);
+bool sys::GetVirtualInputStatus(SYS_VIRTUAL_KEY virtual_key);
 ```
 This function tells you virtual key status. If the corresponding key is pressed or activated, this function returns true. Before the call of this function, argument key is must set by SetVirtualInputKey.
 
 5. GetVirtualInputPressed
 ```
-bool GetVirtualInputPressed(SYS_VIRTUAL_KEY virtual_key);
+bool sys::GetVirtualInputPressed(SYS_VIRTUAL_KEY virtual_key);
 ```
 This function tells you virtual key status. If the corresponding key is pressed or activated and not so in the last loop, this function returns true. Before the call of this function, argument key is must set by SetVirtualInputKey.

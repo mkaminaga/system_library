@@ -17,7 +17,7 @@ This library features structure and function based interface. Some functions wit
 
 1. WaveDesc
 ```
-struct WaveDesc {
+struct sys::WaveDesc {
   ResourceDesc resource_desc;
   WaveDesc() : resource_desc() { }
 };
@@ -30,26 +30,26 @@ These are some function related to sound play.
 
 1. CreateWave
 ```
-bool CreateWave(const WaveDesc& desc, int wave_id);
+bool sys::CreateWave(const WaveDesc& desc, int wave_id);
 ```
 This function creates a wave data from user designated wave file.
 
 
 2. ReleaseWave
 ```
-bool ReleaseWave(int wave_id);
+bool sys::ReleaseWave(int wave_id);
 ```
 This function releases wave data tagged with wave id. Error and duplicate release causes failure (return value is false), triggering error dialog.
 
 3. PlayWave
 ```
-bool PlayWave(int wave_id);
+bool sys::PlayWave(int wave_id);
 ```
 This function play wave data tagged with wave id. If the sound id is invalid or expired, error dialog is triggered.
 
 4. StopWave
 ```
-bool StopWave(int wave_id);
+bool sys::StopWave(int wave_id);
 ```
 This function stop playing wave data tagged with wave id. If the sound id is invalid or expired, error dialog is triggered.
 
