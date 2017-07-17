@@ -43,7 +43,7 @@ Specifications
 
 Build
 ----
-There two things you have to do to use this library.<br>
+There are two things you have to do to use this library.<br>
 First, set path to "system.h" and include this header from client source files.<br>
 Second, add static link libraries (*.lib) to makefile of your project. Variable "LINK" is related. Required files are below.
 ```
