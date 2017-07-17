@@ -2,7 +2,7 @@
 ====
 This sample shows you how to use graphic structures and functions.<br>
 Read sample01/README.md before reading this content.<br>
-<img src="doc/screen_shot.png" width="656" title="screen_shot">
+<img src="doc/screen_shot.png" width="656" title="screen_shot"><br>
 
 General rules
 ----

@@ -2,7 +2,7 @@
 ====
 This sample shows you how to use input functions. There are three sources of input, i.e, Keyboard, Joypad (A.K.A. Gamepad) and virtual input. Virtual input is a merged and capsulized input of former two hardware sources. Each devices are acquired and checked one time a main loop. Both device are enabled if they are connected to the computer at the launch of application respectively.<br>
 Read sample[01,02,03]/README.md before reading this content.<br>
-<img src="doc/screen_shot.png" width="656" title="screen_shot">
+<img src="doc/screen_shot.png" width="656" title="screen_shot"><br>
 
 General rules
 ----

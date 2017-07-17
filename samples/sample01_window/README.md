@@ -1,7 +1,7 @@
 sample01 window
 ====
 This sample shows you how to make a plain window.
-<img src="doc/screen_shot.png" width="720" title="screen_shot">
+<img src="doc/screen_shot.png" width="720" title="screen_shot"><br>
 
 General rules
 ----
