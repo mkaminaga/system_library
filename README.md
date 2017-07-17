@@ -2,7 +2,7 @@
 ====
 
 Library for game development on Windows.<br>
-Provides you 2D graphics, sound and input functions. It also enables your game to stream large wave file.
+Provides you 2D graphics, sound and input functions. It also enables your game to stream a large wave file.
 
 Features
 ----
@@ -18,7 +18,7 @@ Requirement
 ----
 You have to install these four toolchains before use this .
 
- * [Microsoft Visual Studio Comm2017](https://www.microsoft.com/ja-jp/dev/products/community.aspx)
+ * [Microsoft Visual Studio Community 2017](https://www.microsoft.com/ja-jp/dev/products/community.aspx)
  * [Windows SDK](https://developer.microsoft.com/ja-jp/windows/downloads/windows-8-1-sdk)
  * [Microsoft DirectX SDK (June 2010)](https://www.microsoft.com/en-us/download/details.aspx?id=6812)
  * [vecmath](http://objectclub.jp/download/vecmath1) (API 1.2 C++ port)
