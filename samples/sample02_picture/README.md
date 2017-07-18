@@ -105,9 +105,9 @@ bool sys::CreateImage(const ImageDesc& desc, int image_id);
 ```
 This function creates image data from user texture data. Image data is tagged to user specified image id. Error and duplicate id assign causes failure (return value is false), triggering error dialog.
 
-4. ReleaseTexture
+4. ReleaseImage
 ```
-bool sys::ReleaseTexture(int texture_id);
+bool sys::ReleaseImage(int image_id);
 ```
 This function releases image data tagged with image id. Error and duplicate release causes failure (return value is false), triggering error dialog.<br>
 Don't call this function if the associated image to the texture is not released by CreateImage.
