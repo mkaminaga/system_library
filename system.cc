@@ -77,7 +77,7 @@ namespace {
 // System
 ////////////////////////////////////////
 #define SYS_WINDOW_STYLE    (WS_POPUP|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX)
-#define SYS_WM_USER_STOP    (WM_USER + 1)
+#define SYS_WM_APP_STOP     (WM_APP + 1)
 #define SYS_FPS_SAMPLE_NUM  (4)
 struct SystemData {
   HINSTANCE hinstance;
@@ -110,7 +110,7 @@ struct SystemData {
 SystemData system_data;
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
   switch (msg) {
-    case SYS_WM_USER_STOP:  // WM_CLOSE is caused.
+    case SYS_WM_APP_STOP:  // WM_CLOSE is caused.
     case WM_CLOSE:
     case WM_DESTROY:
       PostQuitMessage(0);
@@ -1914,7 +1914,7 @@ bool UpdateSystem() {
   return true;
 }
 void StopSystem() {
-  SendMessage(system_data.hwnd, SYS_WM_USER_STOP, 0, 0);
+  SendMessage(system_data.hwnd, SYS_WM_APP_STOP, 0, 0);
 }
 void SetWindowTitle(const wchar_t* window_title) {
   system_data.window_title = window_title;

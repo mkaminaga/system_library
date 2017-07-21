@@ -15,6 +15,7 @@ int WINAPI wWinMain(HINSTANCE hinstance, HINSTANCE hinstance_previous,
   if (!sys::InitSystem(hinstance)) return -1;
   while (sys::UpdateSystem()) {
     if (sys::GetMilliSecond() > 10000) {
+       sys::ErrorDialogBox(L"10 seconds passed, exit main loop");
        sys::StopSystem();
     }
   }
