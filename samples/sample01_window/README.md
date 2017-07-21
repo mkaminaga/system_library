@@ -92,7 +92,20 @@ int sys::GetMilliSecond();
 ```
 This function returns time since the launch of the program in millisecond. The accuracy of this function is about 1 ms, though it depends on platform.
 
-3. ErrorDialogBox
+3. GetFPS;
+```
+double GetFPS();
+```
+This function returns current frame rate (FPS).
+
+4. GetForcuse;
+```
+bool GetForcuse();
+```
+This function returns if the client window is focused or not. If it's focused,
+the return value is true. If it's not focused, return value is false.
+
+5. ErrorDialogBox
 ```
 bool ErrorDialogBox(const wchar_t* format, ...);
 ```
