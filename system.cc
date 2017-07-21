@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <wchar.h>
 #include <windows.h>
+#include <string>
 // Graphic error
 #define SYS_ERROR_DUPLICATE_TEXTURE_ID    L"Error! Duplicate texture id:%d"
 #define SYS_ERROR_DUPLICATE_FONT_ID       L"Error! Duplicate font id:%d"
@@ -82,7 +83,7 @@ struct SystemData {
   HINSTANCE hinstance;
   HWND hwnd;
   Vector2<int> window_size;
-  const wchar_t* window_title;
+  std::wstring window_title;
   int icon_id;
   int fps_last_ms;
   int fps_timer_id;
@@ -131,7 +132,7 @@ bool MyRegisterWindowClass() {
   wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
   wcex.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1);
   wcex.lpszMenuName = nullptr;
-  wcex.lpszClassName = system_data.window_title;
+  wcex.lpszClassName = system_data.window_title.c_str();
   if (system_data.icon_id != 0) {
     // Custon icon is used.
     wcex.hIcon = LoadIcon(system_data.hinstance,
@@ -151,8 +152,8 @@ bool MyCreateWindow() {
   AdjustWindowRect(&rc, SYS_WINDOW_STYLE, FALSE);
   SetProcessDpiAwareness(PROCESS_DPI_AWARENESS::PROCESS_SYSTEM_DPI_AWARE);
   system_data.hwnd = CreateWindow(
-      system_data.window_title,
-      system_data.window_title,
+      system_data.window_title.c_str(),
+      system_data.window_title.c_str(),
       SYS_WINDOW_STYLE,
       CW_USEDEFAULT,
       CW_USEDEFAULT,
