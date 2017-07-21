@@ -23,9 +23,6 @@ struct PixelInput {
 // Pixel Shaders
 ////////////////////////////////////////
 float4 pshader1(PixelInput input) : SV_Target {
-	return ShaderTexture.Sample(SampleType, input.tex);
-}
-float4 pshader2(PixelInput input) : SV_Target {
 	float4 cd = ShaderTexture.Sample(SampleType, input.tex);
 	return cd * (1.0f - src.a) + src * src.a * cd.a;
 }

@@ -69,7 +69,6 @@
 #include <string>
 #include <utility>
 #include "shader/pshader1.h"  // Precompiler pixel shader
-#include "shader/pshader2.h"  // Precompiler pixel shader
 #include "shader/vshader1.h"  // Precompiler vertex shader
 namespace sys {
 namespace {
@@ -327,7 +326,6 @@ struct GraphicData {
   ID3D11SamplerState* sampler_state;
   ID3D11VertexShader* vertex_shader1;
   ID3D11PixelShader* pixel_shader1;
-  ID3D11PixelShader* pixel_shader2;
   //
   TextureData texture_buffer[SYS_TEXTURE_BUFFER_ELEM_NUM];
   ImageData image_buffer[SYS_IMAGE_BUFFER_ELEM_NUM];
@@ -351,7 +349,6 @@ struct GraphicData {
       sampler_state(nullptr),
       vertex_shader1(nullptr),
       pixel_shader1(nullptr),
-      pixel_shader2(nullptr),
       resolution(640, 480),
       on_fullscreen_start(false),
       on_power_save(false) { }
@@ -603,14 +600,8 @@ bool CreateGraphicPipeline() {
       graphic_data.vertex_shader1,
       nullptr,
       0);
-#if 0  // Shader1 dosen't use constant buffer for color blend.
   graphic_data.device_context->PSSetShader(
       graphic_data.pixel_shader1,
-      nullptr,
-      0);
-#endif
-  graphic_data.device_context->PSSetShader(
-      graphic_data.pixel_shader2,
       nullptr,
       0);
   graphic_data.device_context->PSSetSamplers(
@@ -764,12 +755,6 @@ bool InitGraphic() {
         &graphic_data.pixel_shader1)) {  // NOLINT, C++ style cast to error
     return false;
   }
-  if (!CreatePixelShader(
-        (const BYTE**) g_pshader2,
-        sizeof(g_pshader2),
-        &graphic_data.pixel_shader2)) {  // NOLINT, C++ style cast to error
-    return false;
-  }
   // Graphic Pipeline
   if (!CreateGraphicPipeline()) return false;
   // Etc.
@@ -781,7 +766,6 @@ void FinalizeGraphic() {
   if (graphic_data.dxgi_swap_chain != nullptr) {
     graphic_data.dxgi_swap_chain->SetFullscreenState(false, nullptr);
   }
-  SYS_SAFE_RELEASE(graphic_data.pixel_shader2);
   SYS_SAFE_RELEASE(graphic_data.pixel_shader1);
   SYS_SAFE_RELEASE(graphic_data.vertex_shader1);
   //
