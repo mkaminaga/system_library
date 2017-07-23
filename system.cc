@@ -8,6 +8,7 @@
 #include <wchar.h>
 #include <windows.h>
 #include <string>
+#include <unordered_map>
 // Graphic error
 #define SYS_ERROR_DUPLICATE_TEXTURE_ID    L"Error! Duplicate texture id:%d"
 #define SYS_ERROR_DUPLICATE_FONT_ID       L"Error! Duplicate font id:%d"
@@ -333,6 +334,7 @@ struct GraphicData {
   Vector2<int> resolution;
   bool on_fullscreen_start;
   bool on_power_save;
+  std::unordered_map<wchar_t, int> font_map;
   GraphicData() :
       device(nullptr),
       device_context(nullptr),
@@ -351,7 +353,13 @@ struct GraphicData {
       pixel_shader1(nullptr),
       resolution(640, 480),
       on_fullscreen_start(false),
-      on_power_save(false) { }
+      on_power_save(false) {
+    const wchar_t font_array[SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM] =
+      L" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\] ";
+    for (int i = 0; i < SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM; ++i) {
+      font_map[font_array[i]] = i;
+    }
+  }
 };
 GraphicData graphic_data;
 //
@@ -1149,19 +1157,15 @@ bool DrawTextData(FontData* font, const Vector2d& position,
       draw_position.sub(Vector2d(text_size.x, text_size.y));
       break;
   }
-  const wchar_t font_table[SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM] =
-    L" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\] ";
   Vector2d font_size;
   GetFontSize(font, &font_size);
   int text_length = wcslen(text);
   ImageData* font_image = nullptr;
   for (int i = 0; i < text_length; ++i) {
-    font_image = &font->font_image[0];  // space ' '
-    for (int j = 0; j < SYS_FONT_ROW_NUM * SYS_FONT_COLUMN_NUM; ++j) {
-      if (text[i] == font_table[j]) {
-        font_image = &font->font_image[j];
-        break;
-      }
+    if (graphic_data.font_map.count(text[i]) == 0) {
+      font_image = &font->font_image[0];  // space ' '
+    } else {
+      font_image = &font->font_image[graphic_data.font_map[text[i]]];
     }
     if (!DrawImageData(
           &font->font_texture,
