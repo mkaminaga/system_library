@@ -43,6 +43,7 @@ Font alignment
 The enumeration SYS_FONTMODE designates how you place the text using DrawText function.
 
 |label|description|
+|---|---|
 |SYS_FONTMODE_TOP_LEFT|The text is aligned in top left|
 |SYS_FONTMODE_TOP_CENTER|The text is aligned in top center|
 |SYS_FONTMODE_TOP_RIGHT|The text is aligned in top right|
