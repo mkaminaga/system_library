@@ -38,6 +38,21 @@ struct sys::FontDesc {
 ```
 This structure describes data font properties. FontDesc includes ResourceDesc. You don't have to set ImageDesc to all of images that consists font data. If you want to create transverset font data, set image_mode to SYS_IMAGEMODE_ROT90 or SYS_IMAGEMODE_ROT270.
 
+Font alignment
+----
+The enumeration SYS_FONTMODE designates how you place the text using DrawText function.
+
+|label|description|
+|SYS_FONTMODE_TOP_LEFT|The text is aligned in top left|
+|SYS_FONTMODE_TOP_CENTER|The text is aligned in top center|
+|SYS_FONTMODE_TOP_RIGHT|The text is aligned in top right|
+|SYS_FONTMODE_MIDDLE_LEFT|The text is aligned in middle left|
+|SYS_FONTMODE_MIDDLE_CENTER|The text is aligned in middle center|
+|SYS_FONTMODE_MIDDLE_RIGHT|The text is aligned in middle right|
+|SYS_FONTMODE_BOTTOM_LEFT|The text is aligned in bottom left|
+|SYS_FONTMODE_BOTTOM_CENTER|The text is aligned in bottom center|
+|SYS_FONTMODE_BOTTOM_RIGHT|The text is aligned in bottom right|
+
 Font draw functions
 ----
 These are some function related to font draw.
