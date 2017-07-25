@@ -93,6 +93,7 @@ struct SystemData {
   int timer_int_ms;
   double fps;
   bool window_forcus;
+  bool is_stopped;
   std::list<double> fps_sample;
   SystemData() :
       hinstance(nullptr),
@@ -105,7 +106,8 @@ struct SystemData {
       one_loop_ms(0),
       timer_int_ms(0),
       fps(0.0),
-      window_forcus(false) { }
+      window_forcus(false),
+      is_stopped(false) { }
 };
 SystemData system_data;
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
@@ -210,7 +212,13 @@ void FinalizeTimer() {
 }
 bool ProcessMessage() {
   MSG msg;
-  while ((system_data.ms - system_data.last_ms) <= system_data.one_loop_ms) {
+  while (true) {
+    if (!system_data.is_stopped) {
+      // This function polls when sys::StopSystem() is called.
+      if ((system_data.ms - system_data.last_ms) > system_data.one_loop_ms) {
+        break;
+      }
+    }
     if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
       if (msg.message == WM_QUIT) return false;
       TranslateMessage(&msg);
@@ -251,10 +259,10 @@ void UpdateFPSCnt() {
 #define SYS_TEXTURE_BUFFER_ELEM_NUM   (128)
 #define SYS_FONT_BUFFER_ELEM_NUM      (4)
 #define SYS_TEXT_BUF_SIZE             (128)
-struct VSConstBufferData {  // Vertex Shader
+struct VSConstBufferData {  // Vertex shader
   XMMATRIX world_matrix;
 };
-struct PSConstBufferData {  // Pxcel Shader
+struct PSConstBufferData {  // Pixel shader
   XMFLOAT4 source_color;
 };
 struct VertexInputData {
@@ -713,7 +721,7 @@ bool CheckDisplayModeChange() {
     desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     desc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
     if (is_fullscreen) {
-      // Fullcreen mode.
+      // Full screen mode.
       Vector2<UINT> display_size;
       if (!GetFullscreenSize(&display_size)) return false;
       desc.Width = display_size.x;
@@ -829,7 +837,7 @@ bool CreateTextureData(const TextureDesc& desc, TextureData* texture) {
   if (resource_desc.use_mem) {
     return false;  // TODO(Mamoru): Implement memory source one.
   } else {
-    // Texture properties aquired.
+    // Texture properties acquired.
     if (FAILED(
           D3DX11GetImageInfoFromFile(
             resource_desc.file_name.c_str(),
@@ -908,7 +916,7 @@ bool CreateImageData(const ImageDesc& desc, TextureData* texture,
     { a_x, b_y, 0.5f },
     { b_x, b_y, 0.5f },
   };
-  // Cordinates from pixel to U-V.
+  // Coordinates from pixel to U-V.
   e_x = static_cast<float>(1.0f / texture->w);
   e_y = static_cast<float>(1.0f / texture->h);
   a_x = static_cast<float>(desc.x * e_x);
@@ -921,7 +929,7 @@ bool CreateImageData(const ImageDesc& desc, TextureData* texture,
     { a_x, b_y },
     { b_x, b_y },
   };
-  // Coordinatess wor texture polygon.
+  // Coordinates are texture polygon.
   float coord[SYS_VERTEX_INPUT_NUM][2] = {0};
   switch (desc.image_mode) {
     case SYS_IMAGEMODE_DEFAULT:
@@ -1482,7 +1490,7 @@ bool InitSound() {
           nullptr))) {
     return false;
   }
-  // Coperative mode is designated.
+  // Cooperative mode is designated.
   if (FAILED(
         sound_data.direct_sound8->SetCooperativeLevel(
           system_data.hwnd,
@@ -1648,7 +1656,7 @@ bool InitKeyboard() {
           DIRECTINPUT_VERSION))) {
     return false;
   }
-  // Keyboard device interface aquired.
+  // Keyboard device interface acquired.
   if (FAILED(
         input_data.keyboard8->CreateDevice(
           GUID_SysKeyboard,
@@ -1720,7 +1728,7 @@ int InitJoypad() {
           DIRECTINPUT_VERSION))) {
     return false;
   }
-  // Pad device interface aquired.
+  // Pad device interface acquired.
   if (FAILED(
         input_data.joypad8->EnumDevices(
           DI8DEVCLASS_GAMECTRL,
@@ -1741,7 +1749,7 @@ int InitJoypad() {
           DISCL_NONEXCLUSIVE | DISCL_FOREGROUND))) {
       return false;
   }
-  // Descrive pad config
+  // Describe pad config
   if (FAILED(
         input_data.joypad_device->EnumObjects(
           EnumAxisProc,
@@ -1902,6 +1910,7 @@ bool UpdateSystem() {
   return true;
 }
 void StopSystem() {
+  system_data.is_stopped = true;
   SendMessage(system_data.hwnd, SYS_WM_APP_STOP, 0, 0);
 }
 void SetWindowTitle(const wchar_t* window_title) {
