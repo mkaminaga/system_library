@@ -1,6 +1,6 @@
 ﻿# Build files
 *.exe
-# *.lib
+*.lib
 *.ilk
 *.map
 *.o
