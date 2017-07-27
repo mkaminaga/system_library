@@ -1,6 +1,16 @@
-﻿SRC=system.cc
-LIB=system.lib
-OBJ=build/system.obj
+﻿LIB=system.lib
+SRC=\
+common.cc\
+graphic.cc\
+input.cc\
+sound.cc\
+system.cc
+OBJ=\
+build/common.obj\
+build/graphic.obj\
+build/input.obj\
+build/sound.obj\
+build/system.obj
 
 $(LIB): $(OBJ)
 	lib /out:$@ $**
