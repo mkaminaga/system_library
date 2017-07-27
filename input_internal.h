@@ -31,74 +31,27 @@ struct InputStatus {
 };
 struct KeyboardStatus : public InputStatus {
   char status[SYS_ELEMNUM_KEYID];
-  KeyboardStatus() : status() { }
-  KeyboardStatus(const KeyboardStatus& keyboard_status) {
-    memcpy(status, keyboard_status.status, sizeof(status));
-  }
-  bool IsON(size_t key) {
-    if ((key < 0) || (key >= SYS_ELEMNUM_KEYID)) {
-      ErrorDialogBox(SYS_ERROR_INVALID_KEY, key);
-      return false;
-    }
-    return (status[key] != 0);
-  }
-  void Reset() {
-    memset(status, 0, sizeof(status));
-  }
+  KeyboardStatus();
+  KeyboardStatus(const KeyboardStatus& keyboard_status);
+  bool IsON(size_t key);
+  void Reset();
 };
 struct JoypadStatus : public InputStatus {
   char status[32];
   int analog_stick[2];
   int threshold_x;
   int threshold_y;
-  JoypadStatus() :
-      status(),
-      analog_stick(),
-      threshold_x(SYS_JOYPAD_THRESHOLD_DEFAULT),
-      threshold_y(SYS_JOYPAD_THRESHOLD_DEFAULT) { }
-  JoypadStatus(const JoypadStatus& joypad_status) {
-    memcpy(status, joypad_status.status, sizeof(status));
-    memcpy(analog_stick, joypad_status.analog_stick, sizeof(analog_stick));
-  }
-  bool IsON(size_t key) {
-    switch (key) {
-      case SYS_JOYPAD_KEY_DOWN:
-        return (analog_stick[1] > threshold_y);
-      case SYS_JOYPAD_KEY_LEFT:
-        return (analog_stick[0] < -threshold_x);
-      case SYS_JOYPAD_KEY_RIGHT:
-        return (analog_stick[0] > threshold_x);
-      case SYS_JOYPAD_KEY_UP:
-        return (analog_stick[1] < -threshold_y);
-      default:
-        if ((key < 0) || (key >= 32)) {
-          ErrorDialogBox(SYS_ERROR_INVALID_JOYPAD_KEY, key);
-          return false;
-        }
-        return (status[key] != 0);
-    }
-  }
-  void Reset() {
-    memset(status, 0, sizeof(status));
-    memset(analog_stick, 0, sizeof(analog_stick));
-  }
+  JoypadStatus();
+  JoypadStatus(const JoypadStatus& joypad_status);
+  bool IsON(size_t key);
+  void Reset();
 };
 struct VirtualStatus : public InputStatus {
   char status[SYS_ELEMNUM_BUTTON_KEY];
-  VirtualStatus() : status() { }
-  VirtualStatus(const VirtualStatus& virtual_status) {
-    memcpy(status, virtual_status.status, sizeof(status));
-  }
-  bool IsON(size_t key) {
-    if ((key < 0) || (key >= SYS_ELEMNUM_BUTTON_KEY)) {
-      ErrorDialogBox(SYS_ERROR_INVALID_VIRTUAL_KEY, key);
-      return false;
-    }
-    return (status[key] != 0);
-  }
-  void Reset() {
-    memset(status, 0, sizeof(status));
-  }
+  VirtualStatus();
+  VirtualStatus(const VirtualStatus& virtual_status);
+  bool IsON(size_t key);
+  void Reset();
 };
 struct InputData {
   IDirectInput8* keyboard8;
@@ -115,28 +68,7 @@ struct InputData {
   VirtualStatus virtual_pressed;
   std::map<int, int> key_map;  // <key, button key>
   std::map<int, int> joypad_key_map;  // <joypad key, button key>
-  InputData() :
-      keyboard8(nullptr),
-      joypad8(nullptr),
-      keyboard_device(nullptr),
-      joypad_device(nullptr),
-      keyboard_available(false),
-      joypad_available(false) {
-    // Fixed virtual key assign for keyboard.
-    key_map.insert(std::make_pair(SYS_KEY_DOWN, SYS_VIRTUAL_KEY_DOWN));
-    key_map.insert(std::make_pair(SYS_KEY_LEFT, SYS_VIRTUAL_KEY_LEFT));
-    key_map.insert(std::make_pair(SYS_KEY_RIGHT, SYS_VIRTUAL_KEY_RIGHT));
-    key_map.insert(std::make_pair(SYS_KEY_UP, SYS_VIRTUAL_KEY_UP));
-    // Fixed virtual key assign for joypad.
-    joypad_key_map.insert(
-        std::make_pair(SYS_JOYPAD_KEY_DOWN, SYS_VIRTUAL_KEY_DOWN));
-    joypad_key_map.insert(
-        std::make_pair(SYS_JOYPAD_KEY_LEFT, SYS_VIRTUAL_KEY_LEFT));
-    joypad_key_map.insert(
-        std::make_pair(SYS_JOYPAD_KEY_RIGHT, SYS_VIRTUAL_KEY_RIGHT));
-    joypad_key_map.insert(
-        std::make_pair(SYS_JOYPAD_KEY_UP, SYS_VIRTUAL_KEY_UP));
-  }
+  InputData();
 };
 
   //

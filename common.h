@@ -29,11 +29,7 @@ struct ResourceDesc {
   uint8_t* mem_ptr;
   size_t mem_size;
   bool use_mem;
-  ResourceDesc() :
-      file_name(),
-      mem_ptr(nullptr),
-      mem_size(0),
-      use_mem(false) { }
+  ResourceDesc();
 };
 
   //

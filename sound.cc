@@ -8,19 +8,31 @@
 #include "./sound_internal.h"
 #include "./system_internal.h"
 #include <memory>
-  //
-  // These are public macros related to sound
-  //
-
-  //
-  // These are public enumerations and constants related to sound
-  //
-
 namespace sys {
   //
-  // These are public structures related to sound
+  // These are structures related to sound
   //
 SoundData sound_data;
+WaveData::WaveData() : buffer(nullptr) { }
+void WaveData::Release() {
+  SYS_SAFE_RELEASE(buffer);
+}
+bool WaveData::IsNull() {
+  return (buffer == nullptr);
+}
+StreamingData::StreamingData() : resource_desc(), hthread(nullptr),
+    wave_data(), stop_request(false), in_pause(false), in_use(false),
+    in_loop(false) { }
+void StreamingData::Reset() {
+  hthread = nullptr;
+  stop_request = false;
+  in_pause = false;
+  in_use = false;
+  in_loop = false;
+  wave_data.Release();
+}
+SoundData::SoundData() : direct_sound8(nullptr), hmutex(nullptr),
+    wave_buffer(), streaming_data() { }
 
   //
   // These are private functions related to sound

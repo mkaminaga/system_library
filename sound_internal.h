@@ -26,13 +26,9 @@ namespace sys {
   //
 struct WaveData {
   IDirectSoundBuffer* buffer;
-  WaveData() : buffer(nullptr) { }
-  void Release() {
-    SYS_SAFE_RELEASE(buffer);
-  }
-  bool IsNull() {
-    return (buffer == nullptr);
-  }
+  WaveData();
+  void Release();
+  bool IsNull();
 };
 struct StreamingData {
   ResourceDesc resource_desc;
@@ -42,24 +38,15 @@ struct StreamingData {
   bool in_use;
   bool in_loop;
   WaveData wave_data;
-  StreamingData() : resource_desc(), hthread(nullptr), wave_data(),
-      stop_request(false), in_pause(false), in_use(false), in_loop(false) { }
-  void Reset() {
-    hthread = nullptr;
-    stop_request = false;
-    in_pause = false;
-    in_use = false;
-    in_loop = false;
-    wave_data.Release();
-  }
+  StreamingData();
+  void Reset();
 };
 struct SoundData {
   IDirectSound8* direct_sound8;
   HANDLE hmutex;
   WaveData wave_buffer[SYS_WAVE_BUFFER_ELEM_NUM];
   StreamingData streaming_data;
-  SoundData() : direct_sound8(nullptr), hmutex(nullptr), wave_buffer(),
-      streaming_data() { }
+  SoundData();
 };
 
   //

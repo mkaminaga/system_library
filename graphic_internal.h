@@ -51,50 +51,25 @@ struct TextureData {
   int h;
   float blend_factor[4];
   ID3D11ShaderResourceView* shader_resource_view[1];
-  TextureData() :
-      w(0),
-      h(0),
-      blend_factor(),
-      shader_resource_view() { }
-  void Release() {
-    SYS_SAFE_RELEASE(shader_resource_view[0]);
-  }
-  bool IsNull() {
-    return (shader_resource_view[0] == nullptr);
-  }
+  TextureData();
+  void Release();
+  bool IsNull();
 };
 struct ImageData {
   int w;
   int h;
   int texture_id;
   ID3D11Buffer* buffer;
-  ImageData() :
-      w(0),
-      h(0),
-      texture_id(0),
-      buffer(nullptr) { }
-  void Release() {
-    SYS_SAFE_RELEASE(buffer);
-  }
-  bool IsNull() {
-    return (buffer == nullptr);
-  }
+  ImageData();
+  void Release();
+  bool IsNull();
 };
 struct FontData {
   TextureData font_texture;
   ImageData font_image[SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM];
-  FontData() :
-    font_texture(),
-    font_image() { }
-  void Release() {
-    for (int i = 0; i < SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM; ++i) {
-      font_image[i].Release();
-    }
-    font_texture.Release();
-  }
-  bool IsNull() {
-    return font_texture.IsNull();
-  }
+  FontData();
+  void Release();
+  bool IsNull();
 };
 struct GraphicData {
   ID3D11Device* device;
@@ -120,31 +95,7 @@ struct GraphicData {
   bool on_fullscreen_start;
   bool on_power_save;
   std::unordered_map<wchar_t, int> font_map;
-  GraphicData() :
-      device(nullptr),
-      device_context(nullptr),
-      dxgi_device(nullptr),
-      dxgi_adaptor(nullptr),
-      dxgi_factory(nullptr),
-      dxgi_swap_chain(nullptr),
-      back_buffer(nullptr),
-      render_target_view(nullptr),
-      input_layout(nullptr),
-      vs_cbuffer(nullptr),
-      ps_cbuffer(nullptr),
-      blend_state(nullptr),
-      sampler_state(nullptr),
-      vertex_shader1(nullptr),
-      pixel_shader1(nullptr),
-      resolution(640, 480),
-      on_fullscreen_start(false),
-      on_power_save(false) {
-    const wchar_t font_array[SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM] =
-      L" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\] ";
-    for (int i = 0; i < SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM; ++i) {
-      font_map[font_array[i]] = i;
-    }
-  }
+  GraphicData();
 };
 
   //

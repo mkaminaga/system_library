@@ -4,22 +4,53 @@
   // @date 2017-07-27 21:04:42
   // Copyright 2017 Mamoru Kaminaga
 #include <assert.h>
+#include <unordered_map>
 #include "./graphic.h"
 #include "./graphic_internal.h"
 #include "./system_internal.h"
-  //
-  // These are public macros related to graphic
-  //
-
-  //
-  // These are public enumerations and constants related to graphic
-  //
-
 namespace sys {
   //
-  // These are public structures related to graphic
+  // These are structures related to graphic
   //
 GraphicData graphic_data;
+TextureData::TextureData() : w(0), h(0), blend_factor(),
+    shader_resource_view() { }
+void TextureData::Release() {
+  SYS_SAFE_RELEASE(shader_resource_view[0]);
+}
+bool TextureData::IsNull() {
+  return (shader_resource_view[0] == nullptr);
+}
+ImageData::ImageData() : w(0), h(0), texture_id(0), buffer(nullptr) { }
+void ImageData::Release() {
+  SYS_SAFE_RELEASE(buffer);
+}
+bool ImageData::IsNull() {
+  return (buffer == nullptr);
+}
+FontData::FontData() : font_texture(), font_image() { }
+void FontData::Release() {
+  for (int i = 0; i < SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM; ++i) {
+    font_image[i].Release();
+  }
+  font_texture.Release();
+}
+bool FontData::IsNull() {
+  return font_texture.IsNull();
+}
+GraphicData::GraphicData() : device(nullptr), device_context(nullptr),
+    dxgi_device(nullptr), dxgi_adaptor(nullptr), dxgi_factory(nullptr),
+    dxgi_swap_chain(nullptr), back_buffer(nullptr),
+    render_target_view(nullptr), input_layout(nullptr), vs_cbuffer(nullptr),
+    ps_cbuffer(nullptr), blend_state(nullptr), sampler_state(nullptr),
+    vertex_shader1(nullptr), pixel_shader1(nullptr), resolution(640, 480),
+    on_fullscreen_start(false), on_power_save(false) {
+  const wchar_t font_array[SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM] =
+    L" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\] ";
+  for (int i = 0; i < SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM; ++i) {
+    font_map[font_array[i]] = i;
+  }
+}
 
   //
   // These are private functions related to common

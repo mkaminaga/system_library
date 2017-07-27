@@ -7,21 +7,15 @@
 #include "./common.h"
 #include "./common_internal.h"
 #include "./system_internal.h"
-  //
-  // These are public macros related to common
-  //
-
-  //
-  // These are public enumerations and constants related to common
-  //
-
 namespace sys {
   //
-  // These are public structures related to common
+  // These are structures related to common
   //
+ResourceDesc::ResourceDesc() : file_name(), mem_ptr(nullptr), mem_size(0),
+    use_mem(false) { }
 
   //
-  // These are private functions related to common
+  // These are internal functions related to common
   //
 
   //
