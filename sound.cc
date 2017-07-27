@@ -10,9 +10,15 @@
 #include <memory>
 namespace sys {
   //
-  // These are structures related to sound
+  // These are internal structures related to sound
   //
 SoundData sound_data;
+SoundData::SoundData() : direct_sound8(nullptr), hmutex(nullptr),
+    wave_buffer(), streaming_data() { }
+
+  //
+  // These are public structures related to sound
+  //
 WaveData::WaveData() : buffer(nullptr) { }
 void WaveData::Release() {
   SYS_SAFE_RELEASE(buffer);
@@ -31,8 +37,6 @@ void StreamingData::Reset() {
   in_loop = false;
   wave_data.Release();
 }
-SoundData::SoundData() : direct_sound8(nullptr), hmutex(nullptr),
-    wave_buffer(), streaming_data() { }
 
   //
   // These are private functions related to sound

@@ -14,23 +14,19 @@
 #include "./sound_internal.h"
 #include "./system.h"
 #include "./system_internal.h"
-  //
-  // These are public macros related to system
-  //
-
-  //
-  // These are public enumerations and constants related to system
-  //
-
 namespace sys {
   //
-  // These are public structures related to system
+  // These are internal structures related to system
   //
 SystemData system_data;
 SystemData::SystemData() : hinstance(nullptr), hwnd(nullptr),
       window_size(640, 480), window_title(L"System"), icon_id(0),
       fps_last_ms(0), ms(0), one_loop_ms(0), timer_int_ms(0), fps(0.0),
       window_forcus(false), is_stopped(false) { }
+
+  //
+  // These are public structures related to system
+  //
 
   //
   // These are private functions related to system

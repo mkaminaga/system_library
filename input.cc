@@ -10,7 +10,7 @@
 #include "./system_internal.h"
 namespace sys {
   //
-  // These are structures related to input
+  // These are internal structures related to input
   //
 InputData input_data;
 KeyboardStatus::KeyboardStatus() : status() { }
@@ -94,6 +94,10 @@ InputData::InputData() :
   joypad_key_map.insert(
       std::make_pair(SYS_JOYPAD_KEY_UP, SYS_VIRTUAL_KEY_UP));
 }
+
+  //
+  // These are public structures related to input
+  //
 
   //
   // These are private functions related to input

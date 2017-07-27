@@ -10,9 +10,26 @@
 #include "./system_internal.h"
 namespace sys {
   //
-  // These are structures related to graphic
+  // These are internal structures related to graphic
   //
 GraphicData graphic_data;
+GraphicData::GraphicData() : device(nullptr), device_context(nullptr),
+    dxgi_device(nullptr), dxgi_adaptor(nullptr), dxgi_factory(nullptr),
+    dxgi_swap_chain(nullptr), back_buffer(nullptr),
+    render_target_view(nullptr), input_layout(nullptr), vs_cbuffer(nullptr),
+    ps_cbuffer(nullptr), blend_state(nullptr), sampler_state(nullptr),
+    vertex_shader1(nullptr), pixel_shader1(nullptr), resolution(640, 480),
+    on_fullscreen_start(false), on_power_save(false) {
+  const wchar_t font_array[SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM] =
+    L" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\] ";
+  for (int i = 0; i < SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM; ++i) {
+    font_map[font_array[i]] = i;
+  }
+}
+
+  //
+  // These are public structures related to graphic
+  //
 TextureData::TextureData() : w(0), h(0), blend_factor(),
     shader_resource_view() { }
 void TextureData::Release() {
@@ -37,19 +54,6 @@ void FontData::Release() {
 }
 bool FontData::IsNull() {
   return font_texture.IsNull();
-}
-GraphicData::GraphicData() : device(nullptr), device_context(nullptr),
-    dxgi_device(nullptr), dxgi_adaptor(nullptr), dxgi_factory(nullptr),
-    dxgi_swap_chain(nullptr), back_buffer(nullptr),
-    render_target_view(nullptr), input_layout(nullptr), vs_cbuffer(nullptr),
-    ps_cbuffer(nullptr), blend_state(nullptr), sampler_state(nullptr),
-    vertex_shader1(nullptr), pixel_shader1(nullptr), resolution(640, 480),
-    on_fullscreen_start(false), on_power_save(false) {
-  const wchar_t font_array[SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM] =
-    L" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\] ";
-  for (int i = 0; i < SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM; ++i) {
-    font_map[font_array[i]] = i;
-  }
 }
 
   //
