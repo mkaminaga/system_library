@@ -46,6 +46,7 @@ struct SoundData {
   HANDLE hmutex;
   WaveData wave_buffer[SYS_WAVE_BUFFER_ELEM_NUM];
   StreamingData streaming_data;
+  IdServer wave_id_server;
   SoundData();
 };
 extern SoundData sound_data;

@@ -326,18 +326,19 @@ bool UpdateSound() {
   //
   // These are public functions related to sound
   //
-bool CreateWave(const WaveDesc& desc, int wave_id) {
+bool CreateWave(const WaveDesc& desc, int* wave_id) {
+  int id = *wave_id = sound_data.wave_id_server.CreateId();
   // 1. Range check (Wave)
-  if ((wave_id < 0) || (wave_id >= SYS_WAVE_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_WAVE_ID, wave_id);
+  if ((id < 0) || (id >= SYS_WAVE_BUFFER_ELEM_NUM)) {
+    ErrorDialogBox(SYS_ERROR_INVALID_WAVE_ID, id);
     return false;
   }
   // 2. Duplicate check (Wave)
-  if (!sound_data.wave_buffer[wave_id].IsNull()) {
-    ErrorDialogBox(SYS_ERROR_DUPLICATE_WAVE_ID, wave_id);
+  if (!sound_data.wave_buffer[id].IsNull()) {
+    ErrorDialogBox(SYS_ERROR_DUPLICATE_WAVE_ID, id);
     return false;
   }
-  CreateWaveData(desc, &sound_data.wave_buffer[wave_id]);
+  CreateWaveData(desc, &sound_data.wave_buffer[id]);
   return true;
 }
 bool StopWave(int wave_id) {
@@ -364,6 +365,7 @@ bool ReleaseWave(int wave_id) {
     ErrorDialogBox(SYS_ERROR_NULL_WAVE_ID, wave_id);
     return false;
   }
+  sound_data.wave_id_server.ReleaseId(wave_id);
   return ReleaseWaveData(&sound_data.wave_buffer[wave_id]);
 }
 bool PlayWave(int wave_id) {

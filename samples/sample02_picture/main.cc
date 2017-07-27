@@ -16,12 +16,7 @@ struct PictureTest {
   sys::ImageDesc a_0, a_1, a_2, a_3, a_4;
   sys::ImageDesc b_0, b_1, b_2, b_3, b_4;
   sys::ImageDesc c_0, c_1, c_2, c_3, c_4;
-  PictureTest() :
-      id_t(0),
-      id_a_0(0), id_a_1(1), id_a_2(2), id_a_3(3), id_a_4(4),
-      id_b_0(5), id_b_1(6), id_b_2(7), id_b_3(8), id_b_4(9),
-      id_c_0(10), id_c_1(11), id_c_2(12), id_c_3(13), id_c_4(14),
-      frame(0), last_frame(0) {
+  PictureTest() : frame(0), last_frame(0) {
     t.resource_desc.use_mem = false;
     t.resource_desc.file_name = L"picture.png";
     a_0.x =   0; a_0.y =   0; a_0.w =  64; a_0.h =  32;
@@ -41,22 +36,22 @@ struct PictureTest {
     c_4.x =  64; c_4.y = 160; c_4.w =  64; c_4.h =  32;
   }
   bool Init() {
-    if (!sys::CreateTexture(t, id_t)) return false;
-    if (!sys::CreateImage(a_0, id_a_0)) return false;
-    if (!sys::CreateImage(a_1, id_a_1)) return false;
-    if (!sys::CreateImage(a_2, id_a_2)) return false;
-    if (!sys::CreateImage(a_3, id_a_3)) return false;
-    if (!sys::CreateImage(a_4, id_a_4)) return false;
-    if (!sys::CreateImage(b_0, id_b_0)) return false;
-    if (!sys::CreateImage(b_1, id_b_1)) return false;
-    if (!sys::CreateImage(b_2, id_b_2)) return false;
-    if (!sys::CreateImage(b_3, id_b_3)) return false;
-    if (!sys::CreateImage(b_4, id_b_4)) return false;
-    if (!sys::CreateImage(c_0, id_c_0)) return false;
-    if (!sys::CreateImage(c_1, id_c_1)) return false;
-    if (!sys::CreateImage(c_2, id_c_2)) return false;
-    if (!sys::CreateImage(c_3, id_c_3)) return false;
-    if (!sys::CreateImage(c_4, id_c_4)) return false;
+    if (!sys::CreateTexture(t, &id_t)) return false;
+    if (!sys::CreateImage(a_0, &id_a_0)) return false;
+    if (!sys::CreateImage(a_1, &id_a_1)) return false;
+    if (!sys::CreateImage(a_2, &id_a_2)) return false;
+    if (!sys::CreateImage(a_3, &id_a_3)) return false;
+    if (!sys::CreateImage(a_4, &id_a_4)) return false;
+    if (!sys::CreateImage(b_0, &id_b_0)) return false;
+    if (!sys::CreateImage(b_1, &id_b_1)) return false;
+    if (!sys::CreateImage(b_2, &id_b_2)) return false;
+    if (!sys::CreateImage(b_3, &id_b_3)) return false;
+    if (!sys::CreateImage(b_4, &id_b_4)) return false;
+    if (!sys::CreateImage(c_0, &id_c_0)) return false;
+    if (!sys::CreateImage(c_1, &id_c_1)) return false;
+    if (!sys::CreateImage(c_2, &id_c_2)) return false;
+    if (!sys::CreateImage(c_3, &id_c_3)) return false;
+    if (!sys::CreateImage(c_4, &id_c_4)) return false;
     return true;
   }
   bool Finalize() {

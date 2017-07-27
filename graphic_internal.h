@@ -88,6 +88,9 @@ struct GraphicData {
   ID3D11VertexShader* vertex_shader1;
   ID3D11PixelShader* pixel_shader1;
   //
+  IdServer image_id_server;
+  IdServer texture_id_server;
+  IdServer font_id_server;
   TextureData texture_buffer[SYS_TEXTURE_BUFFER_ELEM_NUM];
   ImageData image_buffer[SYS_IMAGE_BUFFER_ELEM_NUM];
   FontData font_buffer[SYS_FONT_BUFFER_ELEM_NUM];

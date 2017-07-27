@@ -41,7 +41,7 @@ struct StreamingDesc {
   //
   // These are public functions related to sound
   //
-bool CreateWave(const WaveDesc& desc, int wave_id);
+bool CreateWave(const WaveDesc& desc, int* wave_id);
 bool ReleaseWave(int wave_id);
 bool PlayWave(int wave_id);
 bool StopWave(int wave_id);

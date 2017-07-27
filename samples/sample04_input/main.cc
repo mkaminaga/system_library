@@ -9,13 +9,13 @@
 struct TextDrawer {
   int id_a;
   sys::FontDesc a;
-  TextDrawer() : id_a(0) {
+  TextDrawer() {
     a.resource_desc.use_mem = false;
     a.resource_desc.file_name = L"font.png";
     a.s = 1.4;
   }
   bool Init() {
-    if (!sys::CreateFont(a, id_a)) return false;
+    if (!sys::CreateFont(a, &id_a)) return false;
     return true;
   }
   bool Finalize() {

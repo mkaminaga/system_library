@@ -95,14 +95,14 @@ struct FontDesc {
 void SetResolution(int x, int y);
 void StartWithFullscreen(bool fullscreen);
 bool FillScreen(const Color4b& color);
-bool CreateTexture(const TextureDesc& desc, int texture_id);
+bool CreateTexture(const TextureDesc& desc, int* texture_id);
 bool ReleaseTexture(int texture_id);
 bool GetTextureSize(int texture_id, Vector2d* size);
-bool CreateImage(const ImageDesc& desc, int image_id);
+bool CreateImage(const ImageDesc& desc, int* image_id);
 bool ReleaseImage(int image_id);
 bool GetImageSize(int image_id, Vector2d* size);
 bool DrawImage(int image_id, const Vector2d& position, const Color4b& color);
-bool CreateFont(const FontDesc& desc, int font_id);
+bool CreateFont(const FontDesc& desc, int* font_id);
 bool ReleaseFont(int font_id);
 bool GetFontSize(int font_id, Vector2d* size);
 bool GetTextSize(int font_id, Vector2d* size, const wchar_t* format, ...);

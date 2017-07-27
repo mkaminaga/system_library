@@ -897,18 +897,19 @@ bool FillScreen(const Color4b& color) {
       f4);
   return true;
 }
-bool CreateTexture(const TextureDesc& desc, int texture_id) {
+bool CreateTexture(const TextureDesc& desc, int* texture_id) {
+  int id = *texture_id = graphic_data.texture_id_server.CreateId();
   // 1. Range check
-  if ((texture_id < 0) || (texture_id >= SYS_TEXTURE_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_TEXTURE_ID, texture_id);
+  if ((id < 0) || (id >= SYS_TEXTURE_BUFFER_ELEM_NUM)) {
+    ErrorDialogBox(SYS_ERROR_INVALID_TEXTURE_ID, id);
     return false;
   }
   // 2. Duplicate check
-  if (!graphic_data.texture_buffer[texture_id].IsNull()) {
-    ErrorDialogBox(SYS_ERROR_DUPLICATE_TEXTURE_ID, texture_id);
+  if (!graphic_data.texture_buffer[id].IsNull()) {
+    ErrorDialogBox(SYS_ERROR_DUPLICATE_TEXTURE_ID, id);
     return false;
   }
-  return CreateTextureData(desc, &graphic_data.texture_buffer[texture_id]);
+  return CreateTextureData(desc, &graphic_data.texture_buffer[id]);
 }
 bool ReleaseTexture(int texture_id) {
   // 1. Range check
@@ -921,6 +922,7 @@ bool ReleaseTexture(int texture_id) {
     ErrorDialogBox(SYS_ERROR_NULL_TEXTURE_ID, texture_id);
     return false;
   }
+  graphic_data.texture_id_server.ReleaseId(texture_id);
   return ReleaseTextureData(&graphic_data.texture_buffer[texture_id]);
 }
 bool GetTextureSize(int texture_id, Vector2d* size) {
@@ -936,7 +938,8 @@ bool GetTextureSize(int texture_id, Vector2d* size) {
   }
   return GetTextureSize(&graphic_data.texture_buffer[texture_id], size);
 }
-bool CreateImage(const ImageDesc& desc, int image_id) {
+bool CreateImage(const ImageDesc& desc, int* image_id) {
+  int id = *image_id = graphic_data.image_id_server.CreateId();
   // 1. Range check (texture)
   if ((desc.texture_id < 0) ||
       (desc.texture_id >= SYS_TEXTURE_BUFFER_ELEM_NUM)) {
@@ -949,17 +952,17 @@ bool CreateImage(const ImageDesc& desc, int image_id) {
     return false;
   }
   // 3. Range check (image)
-  if ((image_id < 0) || (image_id >= SYS_IMAGE_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_IMAGE_ID, image_id);
+  if ((id < 0) || (id >= SYS_IMAGE_BUFFER_ELEM_NUM)) {
+    ErrorDialogBox(SYS_ERROR_INVALID_IMAGE_ID, id);
     return false;
   }
   // 4. Duplicate check (image)
-  if (!graphic_data.image_buffer[image_id].IsNull()) {
-    ErrorDialogBox(SYS_ERROR_DUPLICATE_IMAGE_ID, image_id);
+  if (!graphic_data.image_buffer[id].IsNull()) {
+    ErrorDialogBox(SYS_ERROR_DUPLICATE_IMAGE_ID, id);
     return false;
   }
   return CreateImageData(desc, &graphic_data.texture_buffer[desc.texture_id],
-                         &graphic_data.image_buffer[image_id]);
+                         &graphic_data.image_buffer[id]);
 }
 bool ReleaseImage(int image_id) {
   // 1. Range check (Image)
@@ -972,6 +975,7 @@ bool ReleaseImage(int image_id) {
     ErrorDialogBox(SYS_ERROR_NULL_IMAGE_ID, image_id);
     return false;
   }
+  graphic_data.image_id_server.ReleaseId(image_id);
   return ReleaseImageData(&graphic_data.image_buffer[image_id]);
 }
 bool GetImageSize(int image_id, Vector2d* size) {
@@ -1008,18 +1012,19 @@ bool DrawImage(int image_id, const Vector2d& position, const Color4b& color) {
   return DrawImageData(texture, &graphic_data.image_buffer[image_id], position,
                        color);
 }
-bool CreateFont(const FontDesc& desc, int font_id) {
+bool CreateFont(const FontDesc& desc, int* font_id) {
+  int id = *font_id = graphic_data.font_id_server.CreateId();
   // 1. Range check (Font)
-  if ((font_id < 0) || (font_id >= SYS_FONT_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_FONT_ID, font_id);
+  if ((id < 0) || (id >= SYS_FONT_BUFFER_ELEM_NUM)) {
+    ErrorDialogBox(SYS_ERROR_INVALID_FONT_ID, id);
     return false;
   }
   // 2. Duplicate check (Font)
-  if (!graphic_data.font_buffer[font_id].IsNull()) {
-    ErrorDialogBox(SYS_ERROR_DUPLICATE_FONT_ID, font_id);
+  if (!graphic_data.font_buffer[id].IsNull()) {
+    ErrorDialogBox(SYS_ERROR_DUPLICATE_FONT_ID, id);
     return false;
   }
-  return CreateFontData(desc, &graphic_data.font_buffer[font_id]);
+  return CreateFontData(desc, &graphic_data.font_buffer[id]);
 }
 bool ReleaseFont(int font_id) {
   // 1. Range check (font)
@@ -1032,6 +1037,7 @@ bool ReleaseFont(int font_id) {
     ErrorDialogBox(SYS_ERROR_NULL_FONT_ID, font_id);
     return false;
   }
+  graphic_data.font_id_server.ReleaseId(font_id);
   return ReleaseFontData(&graphic_data.font_buffer[font_id]);
 }
 bool GetFontSize(int font_id, Vector2d* size) {

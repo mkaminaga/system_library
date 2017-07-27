@@ -8,7 +8,7 @@
 struct FontText {
   int id_x1, id_x2, id_x3;
   sys::FontDesc x1, x2, x3;
-  FontText() : id_x1(0), id_x2(1), id_x3(2) {
+  FontText() {
     x1.resource_desc.use_mem = false;
     x1.resource_desc.file_name = L"font.png";
     x1.s = 1.0;
@@ -20,9 +20,9 @@ struct FontText {
     x3.s = 3.0;
   }
   bool Init() {
-    if (!sys::CreateFont(x1, id_x1)) return false;
-    if (!sys::CreateFont(x2, id_x2)) return false;
-    if (!sys::CreateFont(x3, id_x3)) return false;
+    if (!sys::CreateFont(x1, &id_x1)) return false;
+    if (!sys::CreateFont(x2, &id_x2)) return false;
+    if (!sys::CreateFont(x3, &id_x3)) return false;
     return true;
   }
   bool Finalize() {

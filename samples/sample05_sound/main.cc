@@ -10,7 +10,7 @@ struct WaveTest {
   int frame;
   int last_frame;
   sys::WaveDesc a, b, c;
-  WaveTest() : id_a(0), id_b(1), id_c(2), frame(0), last_frame(0) {
+  WaveTest() : frame(0), last_frame(0) {
     a.resource_desc.use_mem = false;
     a.resource_desc.file_name = L"sound_a.wav";
     b.resource_desc.use_mem = false;
@@ -19,9 +19,9 @@ struct WaveTest {
     c.resource_desc.file_name = L"sound_c.wav";
   }
   bool Init() {
-    if (!sys::CreateWave(a, id_a)) return false;
-    if (!sys::CreateWave(b, id_b)) return false;
-    if (!sys::CreateWave(c, id_c)) return false;
+    if (!sys::CreateWave(a, &id_a)) return false;
+    if (!sys::CreateWave(b, &id_b)) return false;
+    if (!sys::CreateWave(c, &id_c)) return false;
     return true;
   }
   bool Finalize() {
