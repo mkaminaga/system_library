@@ -58,6 +58,7 @@ void JoypadStatus::Reset() {
   memset(status, 0, sizeof(status));
   memset(analog_stick, 0, sizeof(analog_stick));
 }
+VirtualStatus::VirtualStatus() : status() { }
 VirtualStatus::VirtualStatus(const VirtualStatus& virtual_status) {
   memcpy(status, virtual_status.status, sizeof(status));
 }

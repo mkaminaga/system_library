@@ -52,24 +52,12 @@ struct SystemData {
   bool window_forcus;
   bool is_stopped;
   std::list<double> fps_sample;
-  SystemData() :
-      hinstance(nullptr),
-      hwnd(nullptr),
-      window_size(640, 480),
-      window_title(L"System"),
-      icon_id(0),
-      fps_last_ms(0),
-      ms(0),
-      one_loop_ms(0),
-      timer_int_ms(0),
-      fps(0.0),
-      window_forcus(false),
-      is_stopped(false) { }
+  SystemData();
 };
+extern SystemData system_data;
 
   //
   // These are internal functions related to system
   //
 }
-extern sys::SystemData system_data;
 #endif  // SYSTEM_INTERNAL_H_

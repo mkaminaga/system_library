@@ -4,8 +4,6 @@
   // @date 2017-07-27 21:04:42
   // Copyright 2017 Mamoru Kaminaga
 #include <assert.h>
-#include "./system.h"
-#include "./system_internal.h"
 #include "./common.h"
 #include "./common_internal.h"
 #include "./graphic.h"
@@ -29,6 +27,10 @@ namespace sys {
   // These are public structures related to system
   //
 SystemData system_data;
+SystemData::SystemData() : hinstance(nullptr), hwnd(nullptr),
+      window_size(640, 480), window_title(L"System"), icon_id(0),
+      fps_last_ms(0), ms(0), one_loop_ms(0), timer_int_ms(0), fps(0.0),
+      window_forcus(false), is_stopped(false) { }
 
   //
   // These are private functions related to system

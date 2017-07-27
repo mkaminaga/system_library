@@ -97,6 +97,7 @@ struct GraphicData {
   std::unordered_map<wchar_t, int> font_map;
   GraphicData();
 };
+extern GraphicData graphic_data;
 
   //
   // These are internal functions related to graphic
@@ -105,5 +106,4 @@ bool InitGraphic();
 bool UpdateGraphic();
 void FinalizeGraphic();
 }
-extern sys::GraphicData graphic_data;
 #endif  // GRAPHIC_INTERNAL_H_

@@ -70,6 +70,7 @@ struct InputData {
   std::map<int, int> joypad_key_map;  // <joypad key, button key>
   InputData();
 };
+extern InputData input_data;
 
   //
   // These are internal functions related to input
@@ -78,5 +79,4 @@ bool InitInput();
 void FinalizeInput();
 bool UpdateInput();
 }
-extern sys::InputData input_data;
 #endif  // INPUT_INTERNAL_H_

@@ -48,6 +48,7 @@ struct SoundData {
   StreamingData streaming_data;
   SoundData();
 };
+extern SoundData sound_data;
 
   //
   // These are internal functions related to sound
@@ -56,5 +57,4 @@ bool InitSound();
 void FinalizeSound();
 bool UpdateSound();
 }
-extern sys::SoundData sound_data;
 #endif  // SOUND_INTERNAL_H_
