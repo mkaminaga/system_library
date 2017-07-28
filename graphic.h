@@ -60,7 +60,7 @@ namespace sys {
   //
 struct TextureDesc {
   ResourceDesc resource_desc;
-  TextureDesc() : resource_desc() { }
+  TextureDesc();
 };
 struct ImageDesc {
   int texture_id;
@@ -70,23 +70,13 @@ struct ImageDesc {
   int h;
   double s;
   SYS_IMAGEMODE image_mode;
-  ImageDesc() :
-      texture_id(0),
-      x(0),
-      y(0),
-      w(0),
-      h(0),
-      s(1.0),
-      image_mode(SYS_IMAGEMODE_DEFAULT) { }
+  ImageDesc();
 };
 struct FontDesc {
   ResourceDesc resource_desc;
   double s;
   SYS_IMAGEMODE image_mode;
-  FontDesc() :
-      resource_desc(),
-      s(1.0),
-      image_mode(SYS_IMAGEMODE_DEFAULT) { }
+  FontDesc();
 };
 
   //

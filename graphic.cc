@@ -10,6 +10,15 @@
 #include "./system_internal.h"
 namespace sys {
   //
+  // These are public structures related to graphic
+  //
+TextureDesc::TextureDesc() : resource_desc() { }
+ImageDesc::ImageDesc() : texture_id(0), x(0), y(0), w(0), h(0), s(1.0),
+    image_mode(SYS_IMAGEMODE_DEFAULT) { }
+FontDesc::FontDesc() : resource_desc(), s(1.0),
+    image_mode(SYS_IMAGEMODE_DEFAULT) { }
+
+  //
   // These are internal structures related to graphic
   //
 GraphicData graphic_data;

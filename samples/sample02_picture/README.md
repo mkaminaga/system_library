@@ -18,16 +18,12 @@ This library features structure and functions based interface. Some functions wi
 
 1. ResourceDesc
 ```
-struct sys::ResourceDesc {
+struct ResourceDesc {
   std::wstring file_name;
   uint8_t* mem_ptr;
   size_t mem_size;
   bool use_mem;
-  ResourceDesc() :
-      file_name(),
-      mem_ptr(nullptr),
-      mem_size(0),
-      use_mem(false) { }
+  ResourceDesc();
 };
 ```
 This structure describes data file properties. If use_mem is false, the data source is set to file specified by file_name, rather the data source is set to memory block that address is pointed by mem_ptr. In the latter case, you have to set the size of memory block to mem_size.
