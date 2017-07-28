@@ -38,5 +38,5 @@ void SetWindowSize(int x, int y);
 int GetMilliSecond();
 double GetFPS();
 bool GetForcuse();
-}  // namespace sys
+}  // namespace sys  // namespace sys
 #endif  // SYSTEM_H_

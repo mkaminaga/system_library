@@ -397,4 +397,4 @@ bool GetVirtualInputStatus(SYS_VIRTUAL_KEY virtual_key) {
 bool GetVirtualInputPressed(SYS_VIRTUAL_KEY virtual_key) {
   return input_data.virtual_pressed.IsON(virtual_key);
 }
-}
+}  // namespace sys

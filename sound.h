@@ -49,5 +49,5 @@ bool PlayStreaming(const StreamingDesc& desc);
 bool PauseStreaming();
 bool ContinueStreaming();
 bool StopStreaming();
-}
+}  // namespace sys
 #endif  // SOUND_H_

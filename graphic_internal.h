@@ -108,5 +108,5 @@ extern GraphicData graphic_data;
 bool InitGraphic();
 bool UpdateGraphic();
 void FinalizeGraphic();
-}
+}  // namespace sys
 #endif  // GRAPHIC_INTERNAL_H_

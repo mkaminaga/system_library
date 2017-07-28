@@ -98,5 +98,5 @@ bool GetFontSize(int font_id, Vector2d* size);
 bool GetTextSize(int font_id, Vector2d* size, const wchar_t* format, ...);
 bool DrawText(int font_id, const Vector2d& position, const Color4b& color,
               SYS_FONTMODE font_mode, const wchar_t* format, ...);
-}
+}  // namespace sys
 #endif  // GRAPHIC_H_

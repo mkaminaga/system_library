@@ -236,4 +236,4 @@ double GetFPS() {
 bool GetForcuse() {
   return system_data.window_forcus;
 }
-}
+}  // namespace sys

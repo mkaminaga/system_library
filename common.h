@@ -36,5 +36,5 @@ struct ResourceDesc {
   // These are public functions related to sound
   //
 bool ErrorDialogBox(const wchar_t* format, ...);
-}
+}  // namespace sys
 #endif  // COMMON_H_

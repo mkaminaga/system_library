@@ -101,4 +101,4 @@ bool ErrorDialogBox(const wchar_t* format, ...) {
   MessageBox(system_data.hwnd, buffer, L"System Error", MB_ICONEXCLAMATION);
   return true;
 }
-}
+}  // namespace sys

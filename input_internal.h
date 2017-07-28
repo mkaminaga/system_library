@@ -5,11 +5,11 @@
   // Copyright 2017 Mamoru Kaminaga
 #ifndef INPUT_INTERNAL_H_
 #define INPUT_INTERNAL_H_
+#include <dinput.h>
+#include <map>
 #include "./common.h"
 #include "./common_internal.h"
 #include "./input.h"
-#include <dinput.h>
-#include <map>
   //
   // These are internal macros related to input
   //
@@ -78,5 +78,5 @@ extern InputData input_data;
 bool InitInput();
 void FinalizeInput();
 bool UpdateInput();
-}
+}  // namespace sys
 #endif  // INPUT_INTERNAL_H_

@@ -5,9 +5,6 @@
   // Copyright 2017 Mamoru Kaminaga
 #ifndef SYSTEM_INTERNAL_H_
 #define SYSTEM_INTERNAL_H_
-#include "./common.h"
-#include "./common_internal.h"
-#include "./system.h"
 #include <ShellScalingAPI.h>
 #include <mmsystem.h>
 #include <stdarg.h>
@@ -21,6 +18,9 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include "./common.h"
+#include "./common_internal.h"
+#include "./system.h"
   //
   // These are internal macros related to system
   //
@@ -59,5 +59,5 @@ extern SystemData system_data;
   //
   // These are internal functions related to system
   //
-}
+}  // namespace sys
 #endif  // SYSTEM_INTERNAL_H_

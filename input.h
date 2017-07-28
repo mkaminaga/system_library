@@ -240,5 +240,5 @@ bool GetKeyboardStatus(SYS_KEY key);
 bool GetJoypadStatus(SYS_JOYPAD_KEY joypad_key);
 bool GetVirtualInputStatus(SYS_VIRTUAL_KEY virtual_key);
 bool GetVirtualInputPressed(SYS_VIRTUAL_KEY virtual_key);
-}
+}  // namespace sys
 #endif  // INPUT_H_

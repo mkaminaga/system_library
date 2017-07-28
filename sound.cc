@@ -4,10 +4,10 @@
   // @date 2017-07-27 21:04:42
   // Copyright 2017 Mamoru Kaminaga
 #include <assert.h>
+#include <memory>
 #include "./sound.h"
 #include "./sound_internal.h"
 #include "./system_internal.h"
-#include <memory>
 namespace sys {
   //
   // These are internal structures related to sound
@@ -436,4 +436,4 @@ bool StopStreaming() {
   sound_data.streaming_data.Reset();
   return true;
 }
-}
+}  // namespace sys

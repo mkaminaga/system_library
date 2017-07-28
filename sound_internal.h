@@ -5,11 +5,11 @@
   // Copyright 2017 Mamoru Kaminaga
 #ifndef SOUND_INTERNAL_H_
 #define SOUND_INTERNAL_H_
+#include <dsound.h>
+#include <process.h>
 #include "./common.h"
 #include "./common_internal.h"
 #include "./sound.h"
-#include <dsound.h>
-#include <process.h>
   //
   // These are internal macros related to sound
   //
@@ -57,5 +57,5 @@ extern SoundData sound_data;
 bool InitSound();
 void FinalizeSound();
 bool UpdateSound();
-}
+}  // namespace sys
 #endif  // SOUND_INTERNAL_H_

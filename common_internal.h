@@ -35,5 +35,5 @@ class IdServer {
   //
   // These are internal functions related to sound
   //
-}
+}  // namespace sys
 #endif  // COMMON_INTERNAL_H_

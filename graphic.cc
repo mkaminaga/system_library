@@ -1098,4 +1098,4 @@ bool DrawText(int font_id, const Vector2d& position, const Color4b& color,
   return DrawTextData(&graphic_data.font_buffer[font_id], position, color,
                       font_mode, buffer);
 }
-}
+}  // namespace sys
