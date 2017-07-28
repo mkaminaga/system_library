@@ -133,13 +133,18 @@ void FinalizeTimer() {
 }
 bool ProcessMessage() {
   MSG msg;
-  while (true) {
-    if (!system_data.is_stopped) {
-      // This function polls when sys::StopSystem() is called.
-      if ((system_data.ms - system_data.last_ms) > system_data.one_loop_ms) {
-        break;
+  if (system_data.is_stopped) {
+    // This case is come when the sys::StopSystem() is called.
+    while (true) {
+      // Polling until WM_QUIT is received.
+      if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+        if (msg.message == WM_QUIT) return false;
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
       }
     }
+  }
+  while ((system_data.ms - system_data.last_ms) <= system_data.one_loop_ms) {
     if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
       if (msg.message == WM_QUIT) return false;
       TranslateMessage(&msg);
