@@ -30,10 +30,7 @@ struct sys::FontDesc {
   ResourceDesc resource_desc;
   double s;
   SYS_IMAGEMODE image_mode;
-  FontDesc() :
-      resource_desc(),
-      s(1.0),
-      image_mode(SYS_IMAGEMODE_DEFAULT) { }
+  FontDesc();
 };
 ```
 This structure describes data font properties. FontDesc includes ResourceDesc. You don't have to set ImageDesc to all of images that consists font data. If you want to create transverset font data, set image_mode to SYS_IMAGEMODE_ROT90 or SYS_IMAGEMODE_ROT270.
@@ -60,10 +57,10 @@ These are some function related to font draw.
 
 1. CreateFont
 ```
-bool sys::CreateFont(const FontDesc& desc, int font_id);
+bool sys::CreateFont(const FontDesc& desc, int* font_id);
 ```
 This function creates a font data from user designated font table.
-The font data is tagged with user specified image id. You can't use one image id to multiple images, despite a image is released with Releaseimage. Error and duplicate id assign causes failure (return value is false), triggering error dialog.
+The font data is tagged with identical font id. You can't use one image id to multiple images, despite a image is released with Releaseimage. Error and duplicate id assign causes failure (return value is false), triggering error dialog.
 
 2.
 ```

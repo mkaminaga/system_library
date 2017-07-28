@@ -19,7 +19,7 @@ This library features structure and function based interface. Some functions wit
 ```
 struct sys::WaveDesc {
   ResourceDesc resource_desc;
-  WaveDesc() : resource_desc() { }
+  WaveDesc();
 };
 ```
 This structure describes sound data properties. WaveDesc includes ResourceDesc.
@@ -30,10 +30,9 @@ These are some function related to sound play.
 
 1. CreateWave
 ```
-bool sys::CreateWave(const WaveDesc& desc, int wave_id);
+bool sys::CreateWave(const WaveDesc& desc, int* wave_id);
 ```
-This function creates a wave data from user designated wave file.
-
+This function creates a wave data from user designated wave file. The wave data is tagged with identical wave id. You can't use one wave id to multiple waves, despite a wave is released with ReleaseWave. Error and duplicate id assign causes failure (return value is false), triggering error dialog.
 
 2. ReleaseWave
 ```

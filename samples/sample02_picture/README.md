@@ -30,9 +30,9 @@ This structure describes data file properties. If use_mem is false, the data sou
 
 2. TextureDesc
 ```
-struct sys::TextureDesc {
+struct TextureDesc {
   ResourceDesc resource_desc;
-  TextureDesc() : resource_desc() { }
+  TextureDesc();
 };
 ```
 This structure describes texture data properties. TextureDesc includes ResourceDesc.
@@ -47,14 +47,7 @@ struct sys::ImageDesc {
   int h;
   double s;
   SYS_IMAGEMODE image_mode;
-  ImageDesc() :
-      texture_id(0),
-      x(0),
-      y(0),
-      w(0),
-      h(0),
-      s(1.0),
-      image_mode(SYS_IMAGEMODE_DEFAULT) { }
+  ImageDesc();
 };
 ```
 This structure describes image data properties. When create an image, texture data is used to paste to image. You can cut texture by describing image top-left corner (x, y) and size (w, h). The clipped region can be scaled by s and the scaled region size becomes image size.<br>
@@ -85,9 +78,9 @@ These are some function related to picture draw.
 
 1. CreateTexture
 ```
-bool sys::CreateTexture(const TextureDesc& desc, int texture_id);
+bool sys::CreateTexture(const TextureDesc& desc, int* texture_id);
 ```
-This function creates a texture data from user designated image data file. These are some format exists can be used, e.g., png, jpeg, gif. The texture data is tagged with user specified texture id. You can't use one texture id to multiple textures, despite a texture is released with ReleaseTexture. Error and duplicate id assign causes failure (return value is false), triggering error dialog.
+This function creates a texture data from user designated image data file. These are some format exists can be used, e.g., png, jpeg, gif. The texture data is tagged with identical texture id. You can't use one texture id to multiple textures, despite a texture is released with ReleaseTexture. Error and duplicate id assign causes failure (return value is false), triggering error dialog.
 
 2. ReleaseTexture
 ```
@@ -97,9 +90,9 @@ This function releases texture data tagged with texture id. Error and duplicate 
 
 3. CreateImage
 ```
-bool sys::CreateImage(const ImageDesc& desc, int image_id);
+bool sys::CreateImage(const ImageDesc& desc, int* image_id);
 ```
-This function creates image data from user texture data. Image data is tagged to user specified image id. Error and duplicate id assign causes failure (return value is false), triggering error dialog.
+This function creates image data from user texture data. Image data is tagged to identical image id. Error and duplicate id assign causes failure (return value is false), triggering error dialog.
 
 4. ReleaseImage
 ```

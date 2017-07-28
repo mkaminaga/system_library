@@ -22,9 +22,9 @@
 #define SYS_MAXIMUM_FRAME_LATENCY     (1)  // 1 or 2 or 3
 #define SYS_VERTEX_INPUT_NUM          (4)  // Fixed.
 #define SYS_FONT_COLUMN_NUM           (16)  // Fixed.
-#define SYS_FONT_ROW_NUM              (256)  // Fixed.
-#define SYS_IMAGE_BUFFER_ELEM_NUM     (256)
-#define SYS_TEXTURE_BUFFER_ELEM_NUM   (64)
+#define SYS_FONT_ROW_NUM              (4)  // Fixed.
+#define SYS_IMAGE_BUFFER_ELEM_NUM     (128)
+#define SYS_TEXTURE_BUFFER_ELEM_NUM   (128)
 #define SYS_FONT_BUFFER_ELEM_NUM      (4)
 #define SYS_TEXT_BUF_SIZE             (128)
 
