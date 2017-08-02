@@ -19,6 +19,12 @@
 *.opendb
 *.bak
 
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
 # Sound files
 # *.wav
 # *.mp3
