@@ -24,6 +24,7 @@
 *.vsp
 *.vspx
 *.sap
+*.csv
 
 # Sound files
 # *.wav
@@ -39,7 +40,6 @@
 
 # data files
 # *.dat
-# *.csv
 # *.pdf
 
 # Tempolary files

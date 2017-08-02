@@ -17,16 +17,16 @@ LIBS = "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib"\
 "dinput8.lib" "dxguid.lib" "../../system.lib"
 
 # Debug build
-#CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /TP /EHsc\
-# 	/Fd"$(OUTDIR)/" /D"DIRECTINPUT_VERSION=0x0800"
-#LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /PDB:"$(PDBFILE)"\
-# 	/MAP:"$(MAPFILE)" /DEBUG
+CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /TP /EHsc\
+ 	/Fd"$(OUTDIR)/" /D"DIRECTINPUT_VERSION=0x0800"
+LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /PDB:"$(PDBFILE)"\
+ 	/MAP:"$(MAPFILE)" /DEBUG /PROFILE
 
 # Release build
-CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE"\
-					 /D"_UNICODE" /D"DIRECTINPUT_VERSION=0x0800" /EHsc\
-					 /Fd"$(OUTDIR)/"
-LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /PDB:"$(PDBFILE)" /MAP:"$(MAPFILE)"
+#CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE"\
+#					 /D"_UNICODE" /D"DIRECTINPUT_VERSION=0x0800" /EHsc\
+#					 /Fd"$(OUTDIR)/"
+#LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /PDB:"$(PDBFILE)" /MAP:"$(MAPFILE)"
 
 ALL: $(TARGET)
 
