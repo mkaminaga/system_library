@@ -21,8 +21,8 @@ namespace sys {
 SystemData system_data;
 SystemData::SystemData() : hinstance(nullptr), hwnd(nullptr),
       window_size(640, 480), window_title(L"System"), icon_id(0),
-      fps_last_ms(0), ms(0), one_loop_ms(0), timer_int_ms(0), fps(0.0),
-      window_forcus(false), is_stopped(false) { }
+      fps_last_ms(0), ms(0), timer_int_ms(0), fps(0.0), window_forcus(false),
+      is_stopped(false) { }
 
   //
   // These are public structures related to system
@@ -103,7 +103,6 @@ bool InitTimerPeriod() {
   timeBeginPeriod(timeCaps.wPeriodMin);
   system_data.timer_int_ms = timeCaps.wPeriodMin;
   if (system_data.timer_int_ms == 0) return false;
-  system_data.one_loop_ms = 16 / system_data.timer_int_ms;
   return true;
 }
 void FinalizeTimerPeriod() {
@@ -111,7 +110,8 @@ void FinalizeTimerPeriod() {
 }
 void CALLBACK TimerProc(UINT timer_id, UINT msg, DWORD_PTR user,
                         DWORD_PTR ptr1, DWORD_PTR ptr2) {
-  ++system_data.ms;
+  system_data.ms += 1;
+  // These macro functions are to prevent warnings for unreferenced parameters.
   UNREFERENCED_PARAMETER(timer_id);
   UNREFERENCED_PARAMETER(msg);
   UNREFERENCED_PARAMETER(user);
@@ -132,27 +132,23 @@ void FinalizeTimer() {
   if (system_data.fps_timer_id != 0) timeKillEvent(system_data.fps_timer_id);
 }
 bool ProcessMessage() {
+  // This function polls when the function sys::StopSystem is called.
   MSG msg;
-  if (system_data.is_stopped) {
-    // This case is come when the sys::StopSystem() is called.
+  while (true) {
     while (true) {
-      // Polling until WM_QUIT is received.
-      if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-        if (msg.message == WM_QUIT) return false;
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
+      if ((system_data.ms - system_data.last_ms) >= 16) {
+        system_data.last_ms = system_data.ms;
+        break;
       }
+      Sleep(1);
     }
-  }
-  while ((system_data.ms - system_data.last_ms) <= system_data.one_loop_ms) {
     if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
       if (msg.message == WM_QUIT) return false;
-      TranslateMessage(&msg);
+      // TranslateMessage(&msg);
       DispatchMessage(&msg);
     }
+    if (!system_data.is_stopped) return true;
   }
-  system_data.last_ms = system_data.ms;
-  return true;
 }
 bool InitFPSCnt() {
   for (int i = SYS_FPS_SAMPLE_NUM; i; --i) {

@@ -46,12 +46,11 @@ struct SystemData {
   int fps_timer_id;
   int last_ms;
   int ms;
-  int one_loop_ms;
   int timer_int_ms;
   double fps;
+  std::list<double> fps_sample;
   bool window_forcus;
   bool is_stopped;
-  std::list<double> fps_sample;
   SystemData();
 };
 extern SystemData system_data;
