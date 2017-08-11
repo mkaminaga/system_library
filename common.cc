@@ -21,7 +21,7 @@ struct IdServer::Impl {
     count = (count & 0x33333333) + ((count >> 2) & 0x33333333);
     count = (count & 0x0f0f0f0f) + ((count >> 4) & 0x0f0f0f0f);
     count = (count & 0x00ff00ff) + ((count >> 8) & 0x00ff00ff);
-    return (count & 0x0000ffff) + ((count >> 16) & 0x0000ffff);
+    return ((count & 0x0000ffff) + ((count >> 16) & 0x0000ffff));
   }
   // LSB is acquired.
   int GetLSB32(uint32_t v) {
@@ -31,7 +31,7 @@ struct IdServer::Impl {
     v |= (v << 4);
     v |= (v << 8);
     v |= (v << 16);
-    return 32 - CountSetBits32(v);
+    return (32 - CountSetBits32(v));
   }
   // Finds the first clear bit from lower class.
   int SearchClearBitFoward32(int n, uint32_t v) {
@@ -49,25 +49,24 @@ struct IdServer::Impl {
   }
   // A not used id is searched.
   int FindFreeId() {
-    if (m_flag == 0xffffffff) return GAME_ID_NOT_FOUND;
+    if (m_flag == 0xffffffff) return SYS_BIT_NOT_FOUND;  // All bits set.
     const int m = SearchClearBitFoward32(0, m_flag);
-    if ((m > 31) || (m == SYS_BIT_NOT_FOUND)) return SYS_BIT_NOT_FOUND;
+    if (n_flag[m] == 0xffffffff) return SYS_BIT_NOT_FOUND;  // All bits set.
     const int n = SearchClearBitFoward32(0, n_flag[m]);
-    if ((n > 31) || (n == SYS_BIT_NOT_FOUND)) return SYS_BIT_NOT_FOUND;
-    return (m << 5) | n;
+    return ((m << 5) | n);
   }
   // A flag bit for id use is set.
   void BusyId(int id) {
     const int m = (id >> 5) & 0x001f;  // 5 bits set.
     const int n = id & 0x001f;  // 5 bits set.
-    SetBit32(n, &(n_flag[m]));
+    SetBit32(n, &n_flag[m]);
     if (n == 31) SetBit32(m, &m_flag);
   }
   // A flag bit for id use is cleared.
   void FreeId(int id) {
     const int m = (id >> 5) & 0x001f;  // 5 bits set.
     const int n = id & 0x001f;  // 5 bits set.
-    ClearBit32(n, &(n_flag[m]));
+    ClearBit32(n, &n_flag[m]);
     ClearBit32(m, &m_flag);
   }
 };
