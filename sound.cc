@@ -5,6 +5,7 @@
   // Copyright 2017 Mamoru Kaminaga
 #include <assert.h>
 #include <memory>
+#include <vector>
 #include "./sound.h"
 #include "./sound_internal.h"
 #include "./system_internal.h"
@@ -28,7 +29,10 @@ bool WaveData::IsNull() {
 }
 StreamingData::StreamingData() : resource_desc(), hthread(nullptr),
     wave_data(), stop_request(false), in_pause(false), in_use(false),
-    in_loop(false) { }
+    in_loop(false) {
+  // The buffer is initialized.
+  sound_data.wave_buffer.resize(32);
+}
 void StreamingData::Reset() {
   hthread = nullptr;
   stop_request = false;
@@ -327,27 +331,27 @@ bool UpdateSound() {
   // These are public functions related to sound
   //
 bool CreateWave(const WaveDesc& desc, int* wave_id) {
+  // 1. The id allocation is checked.
   int id = *wave_id = sound_data.wave_id_server.CreateId();
-  // 1. Range check (Wave)
-  if ((id < 0) || (id >= SYS_WAVE_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_WAVE_ID, id);
+  if (id == SYS_ID_SERVER_EXCEEDS_LIMIT) {
+    ErrorDialogBox(SYS_ERROR_IMAGE_ID_EXCEEDS_LIMIT, id);
     return false;
   }
-  // 2. Duplicate check (Wave)
-  if (!sound_data.wave_buffer[id].IsNull()) {
-    ErrorDialogBox(SYS_ERROR_DUPLICATE_WAVE_ID, id);
-    return false;
+  // 2. The buffer size is checked.
+  if (id >= static_cast<int>(sound_data.wave_buffer.size())) {
+    // The buffer is expanded.
+    sound_data.wave_buffer.resize(sound_data.wave_buffer.size() * 2);
   }
   CreateWaveData(desc, &sound_data.wave_buffer[id]);
   return true;
 }
 bool StopWave(int wave_id) {
-  // 1. Range check (Wave)
-  if ((wave_id < 0) || (wave_id >= SYS_WAVE_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (wave_id >= static_cast<int>(sound_data.wave_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_WAVE_ID, wave_id);
     return false;
   }
-  // 2. Null check (Wave)
+  // 2. Null check.
   if (sound_data.wave_buffer[wave_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_WAVE_ID, wave_id);
     return false;
@@ -355,12 +359,12 @@ bool StopWave(int wave_id) {
   return StopWaveData(&sound_data.wave_buffer[wave_id]);
 }
 bool ReleaseWave(int wave_id) {
-  // 1. Range check (Wave)
-  if ((wave_id < 0) || (wave_id >= SYS_WAVE_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (wave_id >= static_cast<int>(sound_data.wave_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_WAVE_ID, wave_id);
     return false;
   }
-  // 2. Null check (Wave)
+  // 2. Null check.
   if (sound_data.wave_buffer[wave_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_WAVE_ID, wave_id);
     return false;
@@ -369,12 +373,12 @@ bool ReleaseWave(int wave_id) {
   return ReleaseWaveData(&sound_data.wave_buffer[wave_id]);
 }
 bool PlayWave(int wave_id) {
-  // 1. Range check (Wave)
-  if ((wave_id < 0) || (wave_id >= SYS_WAVE_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (wave_id >= static_cast<int>(sound_data.wave_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_WAVE_ID, wave_id);
     return false;
   }
-  // 2. Null check (Wave)
+  // 2. Null check.
   if (sound_data.wave_buffer[wave_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_WAVE_ID, wave_id);
     return false;

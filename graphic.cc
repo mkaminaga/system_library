@@ -37,8 +37,8 @@ GraphicData::GraphicData() : device(nullptr), device_context(nullptr),
     font_map[font_array[i]] = i;
   }
   // The resource buffers are initialized.
-  texture_buffer.resize(128);
-  image_buffer.resize(128);
+  texture_buffer.resize(32);
+  image_buffer.resize(32);
   font_buffer.resize(4);
 }
 

@@ -7,14 +7,14 @@
 #define SOUND_INTERNAL_H_
 #include <dsound.h>
 #include <process.h>
+#include <vector>
 #include "./common.h"
 #include "./common_internal.h"
 #include "./sound.h"
   //
   // These are internal macros related to sound
   //
-#define SYS_WAVE_BUFFER_ELEM_NUM  (256)
-#define SYS_STREAMING_READ_BYTES  (32768)  // 2 ^ 15
+#define SYS_STREAMING_READ_BYTES  (32768)  // 32768=2^15
 
   //
   // These are internal enumerations and constants related to sound
@@ -44,7 +44,7 @@ struct StreamingData {
 struct SoundData {
   IDirectSound8* direct_sound8;
   HANDLE hmutex;
-  WaveData wave_buffer[SYS_WAVE_BUFFER_ELEM_NUM];
+  std::vector<WaveData> wave_buffer;
   StreamingData streaming_data;
   IdServer wave_id_server;
   SoundData();

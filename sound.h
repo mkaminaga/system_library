@@ -14,6 +14,7 @@
   //
   // These are public macros related to sound
   //
+#define SYS_ERROR_WAVE_ID_EXCEEDS_LIMIT   L"Error! Wave id exceeds limit"
 #define SYS_ERROR_DUPLICATE_WAVE_ID       L"Error! Duplicate wave id:%d"
 #define SYS_ERROR_NULL_WAVE_ID            L"Error! Null wave id:%d"
 #define SYS_ERROR_INVALID_WAVE_ID         L"Error! Invalid wave id:%d"
