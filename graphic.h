@@ -15,21 +15,19 @@
   //
   // These are public macros related to graphic
   //
-#define SYS_ERROR_DUPLICATE_TEXTURE_ID    L"Error! Duplicate texture id:%d"
-#define SYS_ERROR_DUPLICATE_FONT_ID       L"Error! Duplicate font id:%d"
-#define SYS_ERROR_DUPLICATE_IMAGE_ID      L"Error! Duplicate image id:%d"
-#define SYS_ERROR_NULL_TEXTURE_ID         L"Error! Null texture id:%d"
-#define SYS_ERROR_NULL_IMAGE_ID           L"Error! Null image id:%d"
-#define SYS_ERROR_NULL_FONT_ID            L"Error! Null font id:%d"
-#define SYS_ERROR_INVALID_TEXTURE_ID      L"Error! Invalid texture id:%d"
-#define SYS_ERROR_INVALID_IMAGE_ID        L"Error! Invalid image id:%d"
-#define SYS_ERROR_INVALID_FONT_ID         L"Error! Invalid font id:%d"
-#define SYS_ERROR_DXGI_DEVICE_REMOVED     L"Error! DXGI_ERROR_DEVICE_REMOVED"
-#define SYS_ERROR_DEVICE_HUNG             L"Error! DXGI_ERROR_DEVICE_HUNG"
-#define SYS_ERROR_DEVICE_RESET            L"Error! DXGI_ERROR_DEVICE_RESET"
-#define SYS_ERROR_DEVICE_REMOVED          L"Error! DXGI_ERROR_DEVICE_REMOVED"
-#define SYS_ERROR_DRIVER_INTERNAL_ERROR   L"Error! DXGI_ERROR_DRIVER_INTERNAL_ERROR"  // NOLINT
-#define SYS_ERROR_INVALID_CALL            L"Error! DXGI_ERROR_INVALID_CALL"
+#define SYS_ERROR_TEXTURE_ID_EXCEEDS_LIMIT  L"Error! Texture id exceeds limit"
+#define SYS_ERROR_IMAGE_ID_EXCEEDS_LIMIT    L"Error! Image id exceeds limit"
+#define SYS_ERROR_FONT_ID_EXCEEDS_LIMIT     L"Error! Font id exceeds limit"
+#define SYS_ERROR_DUPLICATE_TEXTURE_ID      L"Error! Duplicate texture id:%d"
+#define SYS_ERROR_DUPLICATE_FONT_ID         L"Error! Duplicate font id:%d"
+#define SYS_ERROR_DUPLICATE_IMAGE_ID        L"Error! Duplicate image id:%d"
+#define SYS_ERROR_NULL_TEXTURE_ID           L"Error! Null texture id:%d"
+#define SYS_ERROR_NULL_IMAGE_ID             L"Error! Null image id:%d"
+#define SYS_ERROR_NULL_FONT_ID              L"Error! Null font id:%d"
+#define SYS_ERROR_INVALID_TEXTURE_ID        L"Error! Invalid texture id:%d"
+#define SYS_ERROR_INVALID_IMAGE_ID          L"Error! Invalid image id:%d"
+#define SYS_ERROR_INVALID_FONT_ID           L"Error! Invalid font id:%d"
+#define SYS_ERROR_DIRECTX_ERROR             L"Error! Direct X error"
 
   //
   // These are public enumerations and constants related to graphic

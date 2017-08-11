@@ -5,6 +5,7 @@
   // Copyright 2017 Mamoru Kaminaga
 #include <assert.h>
 #include <unordered_map>
+#include <vector>
 #include "./graphic.h"
 #include "./graphic_internal.h"
 #include "./system_internal.h"
@@ -29,11 +30,16 @@ GraphicData::GraphicData() : device(nullptr), device_context(nullptr),
     ps_cbuffer(nullptr), blend_state(nullptr), sampler_state(nullptr),
     vertex_shader1(nullptr), pixel_shader1(nullptr), resolution(640, 480),
     on_fullscreen_start(false), on_power_save(false) {
+  // The font table is initialized.
   const wchar_t font_array[SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM] =
     L" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\] ";
   for (int i = 0; i < SYS_FONT_COLUMN_NUM * SYS_FONT_ROW_NUM; ++i) {
     font_map[font_array[i]] = i;
   }
+  // The resource buffers are initialized.
+  texture_buffer.resize(128);
+  image_buffer.resize(128);
+  font_buffer.resize(4);
 }
 
   //
@@ -349,7 +355,7 @@ bool GetFullscreenSize(Vector2<UINT>* display_size) {
   IDXGIOutput* dxgi_output;
   graphic_data.dxgi_swap_chain->GetFullscreenState(&not_used, &dxgi_output);
   if (!dxgi_output) return false;
-  // Check list item num
+  // Check list item number.
   UINT item_num = 0;
   DXGI_MODE_DESC desc;
   desc.RefreshRate.Numerator = SYS_REFRESH_RATE_NUMERATOR;
@@ -387,19 +393,11 @@ bool GetFullscreenSize(Vector2<UINT>* display_size) {
 bool CheckGraphicDeviceError() {
   switch (graphic_data.device->GetDeviceRemovedReason()) {
     case DXGI_ERROR_DEVICE_HUNG:
-      ErrorDialogBox(SYS_ERROR_DEVICE_HUNG);
-      return false;
     case DXGI_ERROR_DEVICE_RESET:
-      ErrorDialogBox(SYS_ERROR_DEVICE_RESET);
-      return false;
     case DXGI_ERROR_DEVICE_REMOVED:
-      ErrorDialogBox(SYS_ERROR_DEVICE_REMOVED);
-      return false;
     case DXGI_ERROR_DRIVER_INTERNAL_ERROR:
-      ErrorDialogBox(SYS_ERROR_DRIVER_INTERNAL_ERROR);
-      return false;
     case DXGI_ERROR_INVALID_CALL:
-      ErrorDialogBox(SYS_ERROR_INVALID_CALL);
+      ErrorDialogBox(SYS_ERROR_DIRECTX_ERROR);
       return false;
     case S_OK:
     default:
@@ -513,7 +511,7 @@ bool PresentGraphic() {
       break;
     case DXGI_ERROR_DEVICE_REMOVED:
       FinalizeGraphic();
-      ErrorDialogBox(SYS_ERROR_DXGI_DEVICE_REMOVED);
+      ErrorDialogBox(SYS_ERROR_DIRECTX_ERROR);
       return false;
     default:
       break;
@@ -600,7 +598,7 @@ bool CreateImageData(const ImageDesc& desc, TextureData* texture,
   if (h == 0) h = texture->h;  // Full texture height is used.
   image->w = static_cast<int>(w * desc.s);
   image->h = static_cast<int>(h * desc.s);
-  // Image polygon rect size in window set.
+  // Image polygon rectangle size in window set.
   float e_x = static_cast<float>(1.0f / graphic_data.resolution.x * 2.0f);
   float e_y = static_cast<float>(1.0f / graphic_data.resolution.y * 2.0f);
   float a_x = 0.0f;
@@ -907,26 +905,26 @@ bool FillScreen(const Color4b& color) {
   return true;
 }
 bool CreateTexture(const TextureDesc& desc, int* texture_id) {
+  // 1. The id allocation is checked.
   int id = *texture_id = graphic_data.texture_id_server.CreateId();
-  // 1. Range check
-  if ((id < 0) || (id >= SYS_TEXTURE_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_TEXTURE_ID, id);
+  if (id == SYS_ID_SERVER_EXCEEDS_LIMIT) {
+    ErrorDialogBox(SYS_ERROR_TEXTURE_ID_EXCEEDS_LIMIT, id);
     return false;
   }
-  // 2. Duplicate check
-  if (!graphic_data.texture_buffer[id].IsNull()) {
-    ErrorDialogBox(SYS_ERROR_DUPLICATE_TEXTURE_ID, id);
-    return false;
+  // 2. The buffer size is checked.
+  if (id >= static_cast<int>(graphic_data.texture_buffer.size())) {
+    // The buffer is expanded.
+    graphic_data.texture_buffer.resize(graphic_data.texture_buffer.size() * 2);
   }
   return CreateTextureData(desc, &graphic_data.texture_buffer[id]);
 }
 bool ReleaseTexture(int texture_id) {
-  // 1. Range check
-  if ((texture_id < 0) || (texture_id >= SYS_TEXTURE_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (texture_id >= static_cast<int>(graphic_data.texture_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_TEXTURE_ID, texture_id);
     return false;
   }
-  // 2. Null check
+  // 2. Null check.
   if (graphic_data.texture_buffer[texture_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_TEXTURE_ID, texture_id);
     return false;
@@ -935,12 +933,12 @@ bool ReleaseTexture(int texture_id) {
   return ReleaseTextureData(&graphic_data.texture_buffer[texture_id]);
 }
 bool GetTextureSize(int texture_id, Vector2d* size) {
-  // 1. Range check
-  if ((texture_id < 0) || (texture_id >= SYS_TEXTURE_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (texture_id >= static_cast<int>(graphic_data.texture_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_TEXTURE_ID, texture_id);
     return false;
   }
-  // 2. Null check
+  // 2. Null check.
   if (graphic_data.texture_buffer[texture_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_TEXTURE_ID, texture_id);
     return false;
@@ -948,38 +946,32 @@ bool GetTextureSize(int texture_id, Vector2d* size) {
   return GetTextureSize(&graphic_data.texture_buffer[texture_id], size);
 }
 bool CreateImage(const ImageDesc& desc, int* image_id) {
+  // 1. The id allocation is checked.
   int id = *image_id = graphic_data.image_id_server.CreateId();
-  // 1. Range check (texture)
-  if ((desc.texture_id < 0) ||
-      (desc.texture_id >= SYS_TEXTURE_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_TEXTURE_ID, desc.texture_id);
+  if (id == SYS_ID_SERVER_EXCEEDS_LIMIT) {
+    ErrorDialogBox(SYS_ERROR_IMAGE_ID_EXCEEDS_LIMIT, id);
     return false;
   }
-  // 2. Null check (texture)
+  // 2. The buffer size is checked.
+  if (id >= static_cast<int>(graphic_data.image_buffer.size())) {
+    // The buffer is expanded.
+    graphic_data.image_buffer.resize(graphic_data.image_buffer.size() * 2);
+  }
+  // 3. Null check for texture id.
   if (graphic_data.texture_buffer[desc.texture_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_TEXTURE_ID, desc.texture_id);
-    return false;
-  }
-  // 3. Range check (image)
-  if ((id < 0) || (id >= SYS_IMAGE_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_IMAGE_ID, id);
-    return false;
-  }
-  // 4. Duplicate check (image)
-  if (!graphic_data.image_buffer[id].IsNull()) {
-    ErrorDialogBox(SYS_ERROR_DUPLICATE_IMAGE_ID, id);
     return false;
   }
   return CreateImageData(desc, &graphic_data.texture_buffer[desc.texture_id],
                          &graphic_data.image_buffer[id]);
 }
 bool ReleaseImage(int image_id) {
-  // 1. Range check (Image)
-  if ((image_id < 0) || (image_id >= SYS_IMAGE_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (image_id >= static_cast<int>(graphic_data.image_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_IMAGE_ID, image_id);
     return false;
   }
-  // 2. Null check (Image)
+  // 2. Null check.
   if (graphic_data.image_buffer[image_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_IMAGE_ID, image_id);
     return false;
@@ -988,12 +980,12 @@ bool ReleaseImage(int image_id) {
   return ReleaseImageData(&graphic_data.image_buffer[image_id]);
 }
 bool GetImageSize(int image_id, Vector2d* size) {
-  // 1. Range check (Image)
-  if ((image_id < 0) || (image_id >= SYS_IMAGE_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (image_id >= static_cast<int>(graphic_data.image_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_IMAGE_ID, image_id);
     return false;
   }
-  // 2. Null check (Image)
+  // 2. Null check.
   if (graphic_data.image_buffer[image_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_IMAGE_ID, image_id);
     return false;
@@ -1001,17 +993,17 @@ bool GetImageSize(int image_id, Vector2d* size) {
   return GetImageSize(&graphic_data.image_buffer[image_id], size);
 }
 bool DrawImage(int image_id, const Vector2d& position, const Color4b& color) {
-  // 1. Range check (Image)
-  if ((image_id < 0) || (image_id >= SYS_IMAGE_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (image_id >= static_cast<int>(graphic_data.image_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_IMAGE_ID, image_id);
     return false;
   }
-  // 2. Null check (Image)
+  // 2. Null check.
   if (graphic_data.image_buffer[image_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_IMAGE_ID, image_id);
     return false;
   }
-  // 3. Null check (Texture)
+  // 3. Null check for texture.
   const int texture_id = graphic_data.image_buffer[image_id].texture_id;
   TextureData* texture = &graphic_data.texture_buffer[texture_id];
   if (texture->IsNull()) {
@@ -1022,13 +1014,18 @@ bool DrawImage(int image_id, const Vector2d& position, const Color4b& color) {
                        color);
 }
 bool CreateFont(const FontDesc& desc, int* font_id) {
+  // 1. The id allocation is checked.
   int id = *font_id = graphic_data.font_id_server.CreateId();
-  // 1. Range check (Font)
-  if ((id < 0) || (id >= SYS_FONT_BUFFER_ELEM_NUM)) {
-    ErrorDialogBox(SYS_ERROR_INVALID_FONT_ID, id);
+  if (id == SYS_ID_SERVER_EXCEEDS_LIMIT) {
+    ErrorDialogBox(SYS_ERROR_FONT_ID_EXCEEDS_LIMIT, id);
     return false;
   }
-  // 2. Duplicate check (Font)
+  // 2. The buffer size is checked.
+  if (id >= static_cast<int>(graphic_data.font_buffer.size())) {
+    // The buffer is expanded.
+    graphic_data.font_buffer.resize(graphic_data.font_buffer.size() * 2);
+  }
+  // 3. Duplicate check.
   if (!graphic_data.font_buffer[id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_DUPLICATE_FONT_ID, id);
     return false;
@@ -1036,12 +1033,12 @@ bool CreateFont(const FontDesc& desc, int* font_id) {
   return CreateFontData(desc, &graphic_data.font_buffer[id]);
 }
 bool ReleaseFont(int font_id) {
-  // 1. Range check (font)
-  if ((font_id < 0) || (font_id >= SYS_FONT_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (font_id >= static_cast<int>(graphic_data.font_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_FONT_ID, font_id);
     return false;
   }
-  // 2. Null check (Font)
+  // 2. Null check.
   if (graphic_data.font_buffer[font_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_FONT_ID, font_id);
     return false;
@@ -1050,12 +1047,12 @@ bool ReleaseFont(int font_id) {
   return ReleaseFontData(&graphic_data.font_buffer[font_id]);
 }
 bool GetFontSize(int font_id, Vector2d* size) {
-  // 1. Range check (Font)
-  if ((font_id < 0) || (font_id >= SYS_FONT_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (font_id >= static_cast<int>(graphic_data.font_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_FONT_ID, font_id);
     return false;
   }
-  // 2. Null check (Font)
+  // 2. Null check.
   if (graphic_data.font_buffer[font_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_FONT_ID, font_id);
     return false;
@@ -1063,12 +1060,12 @@ bool GetFontSize(int font_id, Vector2d* size) {
   return GetFontSize(&graphic_data.font_buffer[font_id], size);
 }
 bool GetTextSize(int font_id, Vector2d* size, const wchar_t* format, ...) {
-  // 1. Range check (Font)
-  if ((font_id < 0) || (font_id >= SYS_FONT_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (font_id >= static_cast<int>(graphic_data.font_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_FONT_ID, font_id);
     return false;
   }
-  // 2. Null check (Font)
+  // 2. Null check.
   if (graphic_data.font_buffer[font_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_FONT_ID, font_id);
     return false;
@@ -1081,12 +1078,12 @@ bool GetTextSize(int font_id, Vector2d* size, const wchar_t* format, ...) {
 }
 bool DrawText(int font_id, const Vector2d& position, const Color4b& color,
               SYS_FONTMODE font_mode, const wchar_t* format, ...) {
-  // 1. Range check (Font)
-  if ((font_id < 0) || (font_id >= SYS_FONT_BUFFER_ELEM_NUM)) {
+  // 1. The buffer size is checked.
+  if (font_id >= static_cast<int>(graphic_data.font_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_FONT_ID, font_id);
     return false;
   }
-  // 2. Null check (Font)
+  // 2. Null check.
   if (graphic_data.font_buffer[font_id].IsNull()) {
     ErrorDialogBox(SYS_ERROR_NULL_FONT_ID, font_id);
     return false;

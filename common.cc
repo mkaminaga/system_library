@@ -74,7 +74,7 @@ IdServer::IdServer() : impl_(new Impl()) { }
 IdServer::~IdServer() = default;
 int IdServer::CreateId() {
   const int id = impl_->FindFreeId();
-  if (id == SYS_BIT_NOT_FOUND) return SYS_BIT_NOT_FOUND;
+  if (id == SYS_BIT_NOT_FOUND) return SYS_ID_SERVER_EXCEEDS_LIMIT;
   impl_->BusyId(id);
   return id;
 }

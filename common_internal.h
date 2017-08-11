@@ -10,8 +10,7 @@
   //
   // These are internal macros related to sound
   //
-#define GAME_ID_NOT_FOUND   (-1)
-#define GAME_ID_MAX         (1024)
+#define SYS_ID_SERVER_EXCEEDS_LIMIT (-2)
 
   //
   // These are internal enumerations and constants related to sound

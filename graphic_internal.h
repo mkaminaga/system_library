@@ -9,6 +9,7 @@
 #include <d3d11.h>
 #include <d3dx11.h>
 #include <unordered_map>
+#include <vector>
 #include "./common.h"
 #include "./common_internal.h"
 #include "./graphic.h"
@@ -23,9 +24,6 @@
 #define SYS_VERTEX_INPUT_NUM          (4)  // Fixed.
 #define SYS_FONT_COLUMN_NUM           (16)  // Fixed.
 #define SYS_FONT_ROW_NUM              (4)  // Fixed.
-#define SYS_IMAGE_BUFFER_ELEM_NUM     (128)
-#define SYS_TEXTURE_BUFFER_ELEM_NUM   (128)
-#define SYS_FONT_BUFFER_ELEM_NUM      (4)
 #define SYS_TEXT_BUF_SIZE             (128)
 
   //
@@ -91,9 +89,9 @@ struct GraphicData {
   IdServer image_id_server;
   IdServer texture_id_server;
   IdServer font_id_server;
-  TextureData texture_buffer[SYS_TEXTURE_BUFFER_ELEM_NUM];
-  ImageData image_buffer[SYS_IMAGE_BUFFER_ELEM_NUM];
-  FontData font_buffer[SYS_FONT_BUFFER_ELEM_NUM];
+  std::vector<TextureData> texture_buffer;
+  std::vector<ImageData> image_buffer;
+  std::vector<FontData> font_buffer;
   Vector2<int> resolution;
   bool on_fullscreen_start;
   bool on_power_save;
