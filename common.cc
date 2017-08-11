@@ -25,7 +25,7 @@ struct IdServer::Impl {
   }
   // LSB is acquired.
   int GetLSB32(uint32_t v) {
-    if (v == 0) return -1;
+    if (v == 0) return SYS_BIT_NOT_FOUND;
     v |= (v << 1);
     v |= (v << 2);
     v |= (v << 4);
@@ -49,31 +49,43 @@ struct IdServer::Impl {
   }
   // A not used id is searched.
   int FindFreeId() {
-    if (m_flag == 0xffffffff) return SYS_BIT_NOT_FOUND;  // All bits set.
+    if (m_flag == 0xffffffff) return SYS_BIT_NOT_FOUND;  // All bits are set.
     const int m = SearchClearBitFoward32(0, m_flag);
-    if (n_flag[m] == 0xffffffff) return SYS_BIT_NOT_FOUND;  // All bits set.
     const int n = SearchClearBitFoward32(0, n_flag[m]);
     return ((m << 5) | n);
   }
   // A flag bit for id use is set.
   void BusyId(int id) {
-    const int m = (id >> 5) & 0x001f;  // 5 bits set.
+    const int m = id >> 5;  // 5 bits set.
     const int n = id & 0x001f;  // 5 bits set.
     SetBit32(n, &n_flag[m]);
-    if (n == 31) SetBit32(m, &m_flag);
+    if (n_flag[m] == 0xffffffff) SetBit32(m, &m_flag);
   }
   // A flag bit for id use is cleared.
   void FreeId(int id) {
-    const int m = (id >> 5) & 0x001f;  // 5 bits set.
+    const int m = id >> 5;  // 5 bits set.
     const int n = id & 0x001f;  // 5 bits set.
     ClearBit32(n, &n_flag[m]);
     ClearBit32(m, &m_flag);
   }
 };
-IdServer::IdServer() : impl_(new Impl()) { }
+IdServer::IdServer() : impl_(new Impl()) {
+  memset(&impl_->m_flag, 0, sizeof(uint32_t));
+  memset(impl_->n_flag, 0, sizeof(uint32_t) * 32);
+}
 IdServer::~IdServer() = default;
 int IdServer::CreateId() {
   const int id = impl_->FindFreeId();
+#if 1
+  if (id == SYS_BIT_NOT_FOUND) {
+    wprintf(L"======================\n");
+    wprintf(L"m_flag:%d\n", impl_->m_flag);
+    for (int i = 0; i < 32; ++i) {
+      wprintf(L"n_flag[%d]:%d\n", i, impl_->n_flag[i]);
+    }
+    wprintf(L"======================\n");
+  }
+#endif
   if (id == SYS_BIT_NOT_FOUND) return SYS_ID_SERVER_EXCEEDS_LIMIT;
   impl_->BusyId(id);
   return id;
