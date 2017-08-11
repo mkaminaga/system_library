@@ -10,7 +10,6 @@
 #include <wchar.h>
 #include <windows.h>
 #include <string>
-#include "./common.h"
   //
   // These are public macros related to sound
   //

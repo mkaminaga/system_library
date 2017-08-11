@@ -7,6 +7,7 @@
 #include "./common.h"
 #include "./common_internal.h"
 #include "./system_internal.h"
+#define SYS_BIT_NOT_FOUND (-1)
 namespace sys {
   //
   // These are internal structures related to common
@@ -36,7 +37,7 @@ struct IdServer::Impl {
   int SearchClearBitFoward32(int n, uint32_t v) {
     v = ~v & (0xffffffff << n);
     if (v) return GetLSB32(v);
-    return -1;
+    return SYS_BIT_NOT_FOUND;
   }
   // Nth bit of v is set by this function.
   void SetBit32(int n, uint32_t* v) {
@@ -49,29 +50,32 @@ struct IdServer::Impl {
   // A not used id is searched.
   int FindFreeId() {
     if (m_flag == 0xffffffff) return GAME_ID_NOT_FOUND;
-    int m = SearchClearBitFoward32(0, m_flag);
-    int n = SearchClearBitFoward32(0, n_flag[m]);
+    const int m = SearchClearBitFoward32(0, m_flag);
+    if ((m > 31) || (m == SYS_BIT_NOT_FOUND)) return SYS_BIT_NOT_FOUND;
+    const int n = SearchClearBitFoward32(0, n_flag[m]);
+    if ((n > 31) || (n == SYS_BIT_NOT_FOUND)) return SYS_BIT_NOT_FOUND;
     return (m << 5) | n;
   }
   // A flag bit for id use is set.
   void BusyId(int id) {
-    const int m = id >> 5;
-    const int n = id & 0x001f;  // 0x001f = 0b11111
+    const int m = (id >> 5) & 0x001f;  // 5 bits set.
+    const int n = id & 0x001f;  // 5 bits set.
     SetBit32(n, &(n_flag[m]));
     if (n == 31) SetBit32(m, &m_flag);
   }
   // A flag bit for id use is cleared.
   void FreeId(int id) {
-    const int m = id >> 5;
-    const int n = id & 0x001f;  // 0x001f = 0b11111
+    const int m = (id >> 5) & 0x001f;  // 5 bits set.
+    const int n = id & 0x001f;  // 5 bits set.
     ClearBit32(n, &(n_flag[m]));
-    if (n != 31) ClearBit32(m, &m_flag);
+    ClearBit32(m, &m_flag);
   }
 };
 IdServer::IdServer() : impl_(new Impl()) { }
 IdServer::~IdServer() = default;
 int IdServer::CreateId() {
   const int id = impl_->FindFreeId();
+  if (id == SYS_BIT_NOT_FOUND) return SYS_BIT_NOT_FOUND;
   impl_->BusyId(id);
   return id;
 }
