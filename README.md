@@ -63,7 +63,7 @@ The system library requires libraries shown below are installed to your computer
    * 使用可能な音声ファイル: wav
    * 自動で割り振られるIDによる音声データの管理
    * ID指定による画像の再生などの処理が可能
-   * ファイル名指定でストリーミング再生が可能
+   * ストリーミング再生が可能
  * 入力機能
    * キーボード入力の取得
    * ジョイパッド入力の取得
@@ -80,7 +80,7 @@ Translation:<br>
 	* Available formats: wav
 	* The sound data is buffered inside the library.
 	* The ID is served to distinguish sound resources inside the library.
-	* The streaming of an wav file is supported.
+	* The streaming of an wav data is supported.
  * Input
 	* Keyboard input is acquired.
 	* Joypad, or Gamepad, input is acquired.
