@@ -156,7 +156,7 @@ The contents are shown in the table below:
 |[samples/sample05_sound](samples/sample05_sound)|In this sample, you learn how to manipulate an sound data and learn about structures and functions that are needed to the handling of sound data through the application that plays sounds from speakers. For more details, see [README.md](samples/sample05_sound/README.md).|
 |[samples/sample06_streaming](samples/sample06_streaming)|In this sample, you learn how to manipulate an streaming data and learn about structures and functions that are needed to the handling of streaming data through the application that plays streaming from speakers. For more details, see [README.md](samples/sample06_streaming/README.md).|
 
-ご意見、ご感想など (Contributing)
+バグレポートや改善の提案など (Contributing)
 ----
 
 バグレポートや改善の提案などは、issueを立てて伝えてください。<br>
