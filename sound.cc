@@ -294,6 +294,8 @@ unsigned __stdcall StreamingProc(LPVOID lpargs) {
         PlayWaveData(&sound_data.streaming_data.wave_data);
       }
       sound_data.streaming_data.wave_data.buffer->GetStatus(&buf_status);
+      // This sleep is here to reduce the load of the CPU.
+      Sleep(1);
     }
     mmioClose(hmmio, 0);
   } while (sound_data.streaming_data.in_loop);

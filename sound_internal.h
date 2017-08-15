@@ -14,7 +14,7 @@
   //
   // These are internal macros related to sound
   //
-#define SYS_STREAMING_READ_BYTES  (32768)  // 32768=2^15
+#define SYS_STREAMING_READ_BYTES  (100000)
 
   //
   // These are internal enumerations and constants related to sound

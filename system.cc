@@ -140,6 +140,7 @@ bool ProcessMessage() {
         system_data.last_ms = system_data.ms;
         break;
       }
+      // This sleep is here to reduce the load of the CPU.
       Sleep(1);
     }
     if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
