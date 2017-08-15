@@ -74,12 +74,12 @@ Translation:<br>
  * Graphics
 	* Available formats: png, jpeg, gif, etc.
 	* The image data is buffered inside the library.
-	* The ID is served to distinguish image resources inside the library.
+	* The ID is served to identify image resources inside the library.
 	* The text is drawn using font table images.
  * Sound
 	* Available formats: wav
 	* The sound data is buffered inside the library.
-	* The ID is served to distinguish sound resources inside the library.
+	* The ID is served to identify sound resources inside the library.
 	* The streaming of an wav data is supported.
  * Input
 	* Keyboard input is acquired.
