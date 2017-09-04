@@ -23,46 +23,43 @@ struct TextDrawer {
     return true;
   }
   bool DrawVirtualInputAssign() {
-    sys::DrawText(id_a, Point2d(10.0, 10.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT,
+    sys::DrawText(id_a, Point2d(10.0, 10.0), SYS_FONTMODE_TOP_LEFT,
                   L"V=VIRTUAL INPUT,K=KEYBOARD,J=JOYPAD");
-    sys::DrawText(id_a, Point2d(10.0, 30.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:DOWN K:DOWN J:STICK DOWN");
-    sys::DrawText(id_a, Point2d(10.0, 50.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:LEFT K:LEFT J:STICK LEFT");
-    sys::DrawText(id_a, Point2d(10.0, 70.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:RIGHT K:RIGHT J:STICK RIGHT");
-    sys::DrawText(id_a, Point2d(10.0, 90.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:UP K:UP J:STICK UP");
-    sys::DrawText(id_a, Point2d(10.0, 110.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:A K:A J:1");
-    sys::DrawText(id_a, Point2d(10.0, 130.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:B K:B J:2");
-    sys::DrawText(id_a, Point2d(10.0, 150.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:C K:C J:3");
-    sys::DrawText(id_a, Point2d(10.0, 170.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:D K:D J:4");
-    sys::DrawText(id_a, Point2d(10.0, 190.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:E K:E J:5");
-    sys::DrawText(id_a, Point2d(10.0, 210.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:F K:F J:6");
-    sys::DrawText(id_a, Point2d(10.0, 230.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:G K:G J:7");
-    sys::DrawText(id_a, Point2d(10.0, 250.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:H K:H J:8");
-    sys::DrawText(id_a, Point2d(10.0, 270.0), Color4b(0, 0, 0, 0),
-                  SYS_FONTMODE_TOP_LEFT, L"V:I K:I J:9");
+    sys::DrawText(id_a, Point2d(10.0, 30.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:DOWN K:DOWN J:STICK DOWN");
+    sys::DrawText(id_a, Point2d(10.0, 50.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:LEFT K:LEFT J:STICK LEFT");
+    sys::DrawText(id_a, Point2d(10.0, 70.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:RIGHT K:RIGHT J:STICK RIGHT");
+    sys::DrawText(id_a, Point2d(10.0, 90.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:UP K:UP J:STICK UP");
+    sys::DrawText(id_a, Point2d(10.0, 110.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:A K:A J:1");
+    sys::DrawText(id_a, Point2d(10.0, 130.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:B K:B J:2");
+    sys::DrawText(id_a, Point2d(10.0, 150.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:C K:C J:3");
+    sys::DrawText(id_a, Point2d(10.0, 170.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:D K:D J:4");
+    sys::DrawText(id_a, Point2d(10.0, 190.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:E K:E J:5");
+    sys::DrawText(id_a, Point2d(10.0, 210.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:F K:F J:6");
+    sys::DrawText(id_a, Point2d(10.0, 230.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:G K:G J:7");
+    sys::DrawText(id_a, Point2d(10.0, 250.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:H K:H J:8");
+    sys::DrawText(id_a, Point2d(10.0, 270.0), SYS_FONTMODE_TOP_LEFT,
+                  L"V:I K:I J:9");
     return true;
   }
   bool DrawVirtualInputPushed(const std::wstring& key_str) {
-    return sys::DrawText(id_a, Point2d(10.0, 300.0), Color4b(0, 0, 0, 0),
-                         SYS_FONTMODE_TOP_LEFT, L"%s IS PUSHED",
-                         key_str.c_str());
+    return sys::DrawText(id_a, Point2d(10.0, 300.0), SYS_FONTMODE_TOP_LEFT,
+                         L"%s IS PUSHED", key_str.c_str());
   }
   bool DrawVirtualInputPressed(const std::wstring& key_str) {
-    return sys::DrawText(id_a, Point2d(10.0, 320.0), Color4b(0, 0, 0, 0),
-                         SYS_FONTMODE_TOP_LEFT, L"%s IS PRESSED",
-                         key_str.c_str());
+    return sys::DrawText(id_a, Point2d(10.0, 320.0), SYS_FONTMODE_TOP_LEFT,
+                         L"%s IS PRESSED", key_str.c_str());
   }
 };
 struct InputTest {

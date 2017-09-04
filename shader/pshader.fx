@@ -9,7 +9,7 @@
 ////////////////////////////////////////
 Texture2D ShaderTexture : register(t0);
 SamplerState SampleType : register(s0);
-cbuffer ConstantBufferPS {
+cbuffer PSConstBufferData {
 	float4 src;
 };
 ////////////////////////////////////////
@@ -24,5 +24,6 @@ struct PixelInput {
 ////////////////////////////////////////
 float4 pshader1(PixelInput input) : SV_Target {
 	float4 cd = ShaderTexture.Sample(SampleType, input.tex);
-	return cd * (1.0f - src.a) + src * src.a * cd.a;
+  cd.a = cd.a * src.a;
+	return cd;
 }

@@ -32,15 +32,14 @@ struct FontText {
     return true;
   }
   bool Paint() {
-    Color4b col(0, 0, 0, 0);  // plain color
     Point2d pos_x1(400.0, 100.0);
     Point2d pos_x2(400.0, 200.0);
     Point2d pos_x3(400.0, 300.0);
-    sys::DrawText(id_x1, pos_x1, col, SYS_FONTMODE_TOP_LEFT,
+    sys::DrawText(id_x1, pos_x1, SYS_FONTMODE_TOP_LEFT,
                   L"[X1.0 TOP LEFT   ]");
-    sys::DrawText(id_x2, pos_x2, col, SYS_FONTMODE_TOP_CENTER,
+    sys::DrawText(id_x2, pos_x2, SYS_FONTMODE_TOP_CENTER,
                   L"[X2.0 TOP CENTER ]");
-    sys::DrawText(id_x3, pos_x3, col, SYS_FONTMODE_TOP_RIGHT,
+    sys::DrawText(id_x3, pos_x3, SYS_FONTMODE_TOP_RIGHT,
                   L"[X3.0 TOP RIGHT  ]");
     return true;
   }

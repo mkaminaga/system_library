@@ -207,7 +207,7 @@ bool CreatePSConstBuffer() {
   desc.MiscFlags = 0;
   desc.StructureByteStride = sizeof(PSConstBufferData);
   if (FAILED(
-        graphic_data.device->CreateBuffer(
+          graphic_data.device->CreateBuffer(
           &desc,
           nullptr,
           &graphic_data.ps_cbuffer))) {
@@ -711,7 +711,7 @@ bool GetImageSize(ImageData* image, Vector2d* size) {
   return true;
 }
 bool DrawImageData(TextureData* texture, ImageData* image,
-                   const Vector2d& position, const Color4b& color) {
+                   const Vector2d& position, int alpha) {
   assert(image);
   assert(texture);
   if (graphic_data.on_power_save) return false;  // Power save state.
@@ -755,10 +755,8 @@ bool DrawImageData(TextureData* texture, ImageData* image,
       &graphic_data.vs_cbuffer);
   // Pixel shader constant buffer overwritten
   PSConstBufferData ps_buffer;
-  ps_buffer.source_color.x = color.x * 0.0039215686f;  // R, div by 255
-  ps_buffer.source_color.y = color.y * 0.0039215686f;  // G, div by 255
-  ps_buffer.source_color.z = color.z * 0.0039215686f;  // B, div by 255
-  ps_buffer.source_color.w = color.w * 0.0039215686f;  // A, div by 255
+  ps_buffer.src.x = ps_buffer.src.y = ps_buffer.src.z = 0.0;
+  ps_buffer.src.w = static_cast<float>(alpha / 255.0);
   graphic_data.device_context->UpdateSubresource(
       graphic_data.ps_cbuffer,
       0,
@@ -822,7 +820,7 @@ bool GetTextSize(FontData* font, Vector2d* size, const wchar_t* text) {
   return true;
 }
 bool DrawTextData(FontData* font, const Vector2d& position,
-                  const Color4b& color, SYS_FONTMODE font_mode,
+                  int alpha, SYS_FONTMODE font_mode,
                   const wchar_t* text) {
   assert(font);
   assert(text);
@@ -874,7 +872,7 @@ bool DrawTextData(FontData* font, const Vector2d& position,
           &font->font_texture,
           font_image,
           Vector2d(draw_position.x + font_size.x * i, draw_position.y),
-          color)) {
+          alpha)) {
       return false;
     }
   }
@@ -992,7 +990,7 @@ bool GetImageSize(int image_id, Vector2d* size) {
   }
   return GetImageSize(&graphic_data.image_buffer[image_id], size);
 }
-bool DrawImage(int image_id, const Vector2d& position, const Color4b& color) {
+bool DrawImage(int image_id, const Vector2d& position, int alpha) {
   // 1. The buffer size is checked.
   if (image_id >= static_cast<int>(graphic_data.image_buffer.size())) {
     ErrorDialogBox(SYS_ERROR_INVALID_IMAGE_ID, image_id);
@@ -1011,7 +1009,10 @@ bool DrawImage(int image_id, const Vector2d& position, const Color4b& color) {
     return false;
   }
   return DrawImageData(texture, &graphic_data.image_buffer[image_id], position,
-                       color);
+                       alpha);
+}
+bool DrawImage(int image_id, const Vector2d& position) {
+  return  DrawImage(image_id, position, 255);
 }
 bool CreateFont(const FontDesc& desc, int* font_id) {
   // 1. The id allocation is checked.
@@ -1076,7 +1077,7 @@ bool GetTextSize(int font_id, Vector2d* size, const wchar_t* format, ...) {
   vswprintf_s(buffer, 256, format, args);
   return GetTextSize(&graphic_data.font_buffer[font_id], size, buffer);
 }
-bool DrawText(int font_id, const Vector2d& position, const Color4b& color,
+bool DrawText(int font_id, const Vector2d& position, int alpha,
               SYS_FONTMODE font_mode, const wchar_t* format, ...) {
   // 1. The buffer size is checked.
   if (font_id >= static_cast<int>(graphic_data.font_buffer.size())) {
@@ -1092,7 +1093,15 @@ bool DrawText(int font_id, const Vector2d& position, const Color4b& color,
   va_list args;
   va_start(args, format);
   vswprintf_s(buffer, 256, format, args);
-  return DrawTextData(&graphic_data.font_buffer[font_id], position, color,
+  return DrawTextData(&graphic_data.font_buffer[font_id], position, alpha,
                       font_mode, buffer);
+}
+bool DrawText(int font_id, const Vector2d& position, SYS_FONTMODE font_mode,
+              const wchar_t* format, ...) {
+  wchar_t buffer[256] = {0};
+  va_list args;
+  va_start(args, format);
+  vswprintf_s(buffer, 256, format, args);
+  return  DrawText(font_id, position, 255, font_mode, buffer);
 }
 }  // namespace sys

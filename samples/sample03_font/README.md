@@ -70,10 +70,17 @@ This function releases font data tagged with font id. Error and duplicate releas
 
 3.
 ```
-bool sys::DrawText(int font_id, const Vector2d& position, const Color4b& color,
-              SYS_FONTMODE font_mode, const wchar_t* format, ...);
+bool sys::DrawText(int font_id, const Vector2d& position, const int alpha,
+                   SYS_FONTMODE font_mode, const wchar_t* format, ...);
 ```
-This function draws a text using images of character on font table. The color blend is in the same way as DrawImage.
+This function draws a text using images of character on font table. The `alpha` is in the same way as DrawImage.
+
+Overload
+```
+bool sys::DrawText(int font_id, const Vector2d& position,
+                   SYS_FONTMODE font_mode, const wchar_t* format, ...);
+```
+The argument `alpha` is set to 255 as default.
 
 Useful functions
 ----

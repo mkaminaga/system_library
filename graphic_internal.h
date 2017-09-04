@@ -38,7 +38,7 @@ struct VSConstBufferData {  // Vertex shader
   XMMATRIX world_matrix;
 };
 struct PSConstBufferData {  // Pixel shader
-  XMFLOAT4 source_color;
+  XMFLOAT4 src;
 };
 struct VertexInputData {
   float position[3];  // SV_POSITION

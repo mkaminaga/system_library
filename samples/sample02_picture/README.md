@@ -103,19 +103,17 @@ Don't call this function if the associated image to the texture is not released 
 
 5. DrawImage
 ```
-bool DrawImage(int image_id, const Vector2d& position, const Color4b& color);
+bool DrawImage(int image_id, const Vector2d& position, int alpha);
 ```
-This function draws image tagged to image id to specified position. The color is able to used as an accent to image. Image is blended in following rules. The argument color Ca has 4 coordinates, i.e., r, g, b and a. The output color C is calculated with the source color and argument color Ca by below functions
-```
-C = Ca.a * Ca + (1 - Ca.a) * Cs
-```
-or
-```
-C.r = Ca.a * Ca.r + (1 - Ca.a) * Cs.r
-C.g = Ca.a * Ca.g + (1 - Ca.a) * Cs.g
-C.b = Ca.a * Ca.b + (1 - Ca.a) * Cs.b
-```
+This function draws image tagged to image id to specified position. The alpha value of the image is adjustable through `alpha`.<br>
 If the image id is invalid or expired, error dialog is triggered.
+
+Overload
+```
+bool DrawImage(int image_id, const Vector2d& position);
+```
+The argument `alpha` is set to 255 as default.
+
 
 Useful functions
 ----

@@ -74,31 +74,30 @@ struct PictureTest {
     return true;
   }
   bool Paint() {
-    Color4b col(0, 0, 0, 0);  // plain color
     Point2d pos_a(100.0, 200.0);
     Point2d pos_b(300.0, 200.0);
     Point2d pos_c(500.0, 200.0);
     const int delta = frame - last_frame;
     if (delta < 10) {
-      sys::DrawImage(id_a_0, pos_a, col);
-      sys::DrawImage(id_b_0, pos_b, col);
-      sys::DrawImage(id_c_0, pos_c, col);
+      sys::DrawImage(id_a_0, pos_a);
+      sys::DrawImage(id_b_0, pos_b);
+      sys::DrawImage(id_c_0, pos_c);
     } else if (delta < 20) {
-      sys::DrawImage(id_a_1, pos_a, col);
-      sys::DrawImage(id_b_1, pos_b, col);
-      sys::DrawImage(id_c_1, pos_c, col);
+      sys::DrawImage(id_a_1, pos_a);
+      sys::DrawImage(id_b_1, pos_b);
+      sys::DrawImage(id_c_1, pos_c);
     } else if (delta < 30) {
-      sys::DrawImage(id_a_2, pos_a, col);
-      sys::DrawImage(id_b_2, pos_b, col);
-      sys::DrawImage(id_c_2, pos_c, col);
+      sys::DrawImage(id_a_2, pos_a);
+      sys::DrawImage(id_b_2, pos_b);
+      sys::DrawImage(id_c_2, pos_c);
     } else if (delta < 40) {
-      sys::DrawImage(id_a_3, pos_a, col);
-      sys::DrawImage(id_b_3, pos_b, col);
-      sys::DrawImage(id_c_3, pos_c, col);
+      sys::DrawImage(id_a_3, pos_a);
+      sys::DrawImage(id_b_3, pos_b);
+      sys::DrawImage(id_c_3, pos_c);
     } else if (delta < 50) {
-      sys::DrawImage(id_a_4, pos_a, col);
-      sys::DrawImage(id_b_4, pos_b, col);
-      sys::DrawImage(id_c_4, pos_c, col);
+      sys::DrawImage(id_a_4, pos_a);
+      sys::DrawImage(id_b_4, pos_b);
+      sys::DrawImage(id_c_4, pos_c);
       if (delta == 49) last_frame = frame;
     } else {
       // No Impl.

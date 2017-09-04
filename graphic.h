@@ -89,12 +89,15 @@ bool GetTextureSize(int texture_id, Vector2d* size);
 bool CreateImage(const ImageDesc& desc, int* image_id);
 bool ReleaseImage(int image_id);
 bool GetImageSize(int image_id, Vector2d* size);
-bool DrawImage(int image_id, const Vector2d& position, const Color4b& color);
+bool DrawImage(int image_id, const Vector2d& position, int alpha);
+bool DrawImage(int image_id, const Vector2d& position);  // Overloaded.
 bool CreateFont(const FontDesc& desc, int* font_id);
 bool ReleaseFont(int font_id);
 bool GetFontSize(int font_id, Vector2d* size);
 bool GetTextSize(int font_id, Vector2d* size, const wchar_t* format, ...);
-bool DrawText(int font_id, const Vector2d& position, const Color4b& color,
+bool DrawText(int font_id, const Vector2d& position, int alpha,
               SYS_FONTMODE font_mode, const wchar_t* format, ...);
+bool DrawText(int font_id, const Vector2d& position, SYS_FONTMODE font_mode,
+              const wchar_t* format, ...);  // Overloaded.
 }  // namespace sys
 #endif  // GRAPHIC_H_
