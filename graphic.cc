@@ -37,8 +37,8 @@ GraphicData::GraphicData() : device(nullptr), device_context(nullptr),
     font_map[font_array[i]] = i;
   }
   // The resource buffers are initialized.
-  texture_buffer.resize(32);
-  image_buffer.resize(32);
+  texture_buffer.resize(1024);
+  image_buffer.resize(1024);
   font_buffer.resize(4);
 }
 
@@ -911,8 +911,9 @@ bool CreateTexture(const TextureDesc& desc, int* texture_id) {
   }
   // 2. The buffer size is checked.
   if (id >= static_cast<int>(graphic_data.texture_buffer.size())) {
-    // The buffer is expanded.
-    graphic_data.texture_buffer.resize(graphic_data.texture_buffer.size() * 2);
+    sys::ErrorDialogBox(
+        SYS_ERROR_TOO_MANY_TEXTURE_ID,
+        graphic_data.texture_buffer.size());
   }
   return CreateTextureData(desc, &graphic_data.texture_buffer[id]);
 }
@@ -952,8 +953,9 @@ bool CreateImage(const ImageDesc& desc, int* image_id) {
   }
   // 2. The buffer size is checked.
   if (id >= static_cast<int>(graphic_data.image_buffer.size())) {
-    // The buffer is expanded.
-    graphic_data.image_buffer.resize(graphic_data.image_buffer.size() * 2);
+    sys::ErrorDialogBox(
+        SYS_ERROR_TOO_MANY_IMAGE_ID,
+        graphic_data.image_buffer.size());
   }
   // 3. Null check for texture id.
   if (graphic_data.texture_buffer[desc.texture_id].IsNull()) {
@@ -1023,8 +1025,9 @@ bool CreateFont(const FontDesc& desc, int* font_id) {
   }
   // 2. The buffer size is checked.
   if (id >= static_cast<int>(graphic_data.font_buffer.size())) {
-    // The buffer is expanded.
-    graphic_data.font_buffer.resize(graphic_data.font_buffer.size() * 2);
+    sys::ErrorDialogBox(
+        SYS_ERROR_TOO_MANY_FONT_ID,
+        graphic_data.font_buffer.size());
   }
   // 3. Duplicate check.
   if (!graphic_data.font_buffer[id].IsNull()) {

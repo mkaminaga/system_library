@@ -18,7 +18,7 @@ LIBS = "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib"\
 
 # Debug build
 CPPFLAGS = /nologo /W4 /Zi /O2 /MT /D"UNICODE" /D"_UNICODE" /TP /EHsc\
- 	/Fd"$(OUTDIR)/" /D"DIRECTINPUT_VERSION=0x0800"
+ 	/Fd"$(OUTDIR)/" /D"DIRECTINPUT_VERSION=0x0800" /I"C:\projects\library\vecmath-c++-1.2-1.4"
 LFLAGS = $(LIBS) /NOLOGO /SUBSYSTEM:WINDOWS /PDB:"$(PDBFILE)"\
  	/MAP:"$(MAPFILE)" /DEBUG /PROFILE
 

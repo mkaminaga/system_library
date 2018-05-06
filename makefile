@@ -18,7 +18,7 @@ OBJS =\
 	$(OUTDIR)/sound.obj\
 	$(OUTDIR)/system.obj
 CCFLAGS = /W4 /Zi /O2 /MT /EHsc /D"WIN32" /D"NODEBUG" /D"_LIB" /D"_UNICODE"\
-	/D"UNICODE" /D"DIRECTINPUT_VERSION=0x0800" /Fo"$(OUTDIR)\\"
+	/D"UNICODE" /D"DIRECTINPUT_VERSION=0x0800" /Fo"$(OUTDIR)\\" /I"C:\projects\library\vecmath-c++-1.2-1.4"
 
 $(TARGET): $(OBJS)
 	$(LIB) /OUT:$(TARGET) $(OBJS)

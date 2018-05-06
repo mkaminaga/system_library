@@ -18,6 +18,7 @@
 #define SYS_ERROR_DUPLICATE_WAVE_ID       L"Error! Duplicate wave id:%d"
 #define SYS_ERROR_NULL_WAVE_ID            L"Error! Null wave id:%d"
 #define SYS_ERROR_INVALID_WAVE_ID         L"Error! Invalid wave id:%d"
+#define SYS_ERROR_TOO_MANY_WAVE_ID        L"Error! Too many waves, max:%d"
 
   //
   // These are public enumerations and constants related to sound

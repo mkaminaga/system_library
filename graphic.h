@@ -28,6 +28,9 @@
 #define SYS_ERROR_INVALID_IMAGE_ID          L"Error! Invalid image id:%d"
 #define SYS_ERROR_INVALID_FONT_ID           L"Error! Invalid font id:%d"
 #define SYS_ERROR_DIRECTX_ERROR             L"Error! Direct X error"
+#define SYS_ERROR_TOO_MANY_TEXTURE_ID       L"Error! Too many textures, max:%d"
+#define SYS_ERROR_TOO_MANY_IMAGE_ID         L"Error! Too many images, max:%d"
+#define SYS_ERROR_TOO_MANY_FONT_ID          L"Error! Too many fonts, max:%d"
 
   //
   // These are public enumerations and constants related to graphic

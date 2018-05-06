@@ -31,7 +31,7 @@ StreamingData::StreamingData() : resource_desc(), hthread(nullptr),
     wave_data(), stop_request(false), in_pause(false), in_use(false),
     in_loop(false) {
   // The buffer is initialized.
-  sound_data.wave_buffer.resize(32);
+  sound_data.wave_buffer.resize(1024);
 }
 void StreamingData::Reset() {
   hthread = nullptr;
@@ -341,8 +341,9 @@ bool CreateWave(const WaveDesc& desc, int* wave_id) {
   }
   // 2. The buffer size is checked.
   if (id >= static_cast<int>(sound_data.wave_buffer.size())) {
-    // The buffer is expanded.
-    sound_data.wave_buffer.resize(sound_data.wave_buffer.size() * 2);
+    sys::ErrorDialogBox(
+        SYS_ERROR_TOO_MANY_WAVE_ID,
+        sound_data.wave_buffer.size());
   }
   CreateWaveData(desc, &sound_data.wave_buffer[id]);
   return true;
