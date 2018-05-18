@@ -10,7 +10,7 @@
 *.exe
 *.out
 *.stackdump
-*.ico
+# *.ico
 *.sdf
 *.res
 *.sln

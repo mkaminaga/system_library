@@ -1,8 +1,10 @@
 ﻿# makefile
 # date 2017-07-28
-# Copyright 2017 Mamoru kaminaga
-CC = C:\"Program Files (x86)"\"Microsoft Visual Studio"\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x86\cl.exe
-LIB = C:\"Program Files (x86)"\"Microsoft Visual Studio"\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x86\lib.exe
+# Copyright 2017 Mamoru Kaminaga
+VCBIN="C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin"
+CC = $(VCBIN)\\cl.exe
+LIB = $(VCBIN)\\lib.exe
+
 OUTDIR = build
 TARGET = system.lib
 SRC =\
@@ -24,4 +26,5 @@ $(TARGET): $(OBJS)
 	$(LIB) /OUT:$(TARGET) $(OBJS)
 
 .cc{$(OUTDIR)}.obj:
+	@[ -d $(OUTDIR) ] || mkdir $(OUTDIR)
 	$(CC) $(CCFLAGS) /c $<

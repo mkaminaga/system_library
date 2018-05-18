@@ -73,7 +73,9 @@ bool MyRegisterWindowClass() {
 bool MyCreateWindow() {
   RECT rc = { 0, 0, system_data.window_size.x, system_data.window_size.y };
   AdjustWindowRect(&rc, SYS_WINDOW_STYLE, FALSE);
+#if 0
   SetProcessDpiAwareness(PROCESS_DPI_AWARENESS::PROCESS_SYSTEM_DPI_AWARE);
+#endif
   system_data.hwnd = CreateWindow(
       system_data.window_title.c_str(),
       system_data.window_title.c_str(),

@@ -1,8 +1,10 @@
 ﻿# makefile
 # date 2017-06-17
-# Copyright 2017 Mamoru kaminaga
-CC = C:\"Program Files (x86)"\"Microsoft Visual Studio"\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x86\cl.exe
-LINK = C:\"Program Files (x86)"\"Microsoft Visual Studio"\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x86\link.exe
+# Copyright 2017 Mamoru Kaminaga
+VCBIN="C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin"
+CC = $(VCBIN)\\cl.exe
+LINK = $(VCBIN)\\link.exe
+
 OUTDIR = .
 TARGET = main.exe
 PDBFILE = main.pdb
@@ -33,4 +35,5 @@ $(TARGET): $(OBJS) $(RESFILE)
 	$(LINK) $(LFLAGS) /OUT:$(TARGET) $(OBJS) $(RESFILE)
 
 .cc{$(OUTDIR)}.obj:
+	@[ -d $(OUTDIR) ] || mkdir $(OUTDIR)
 	$(CC) $(CPPFLAGS) /Fo"$(OUTDIR)\\" /c $<
